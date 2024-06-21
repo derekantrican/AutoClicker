@@ -53,15 +53,14 @@ namespace AutoClicker.Objects
 
         public override string ToString()
         {
-            return $"[MouseMove] Start: {StartLocation}; End: {EndLocation}";
+            return $"[MouseMove] Start: ({StartLocation.X}±{StartLocationVar.X}, {StartLocation.Y}±{StartLocationVar.Y}); End: ({EndLocation.X}±{EndLocationVar.X}, {EndLocation.Y}±{EndLocationVar.Y})";
         }
-
-        static Random random = new Random();
-        static int mouseSpeed = 15;
 
         public static void MoveMouse(int x, int y, int rx, int ry)
         {
-            double randomSpeed = Math.Max((random.Next(mouseSpeed) / 2.0 + mouseSpeed) / 10.0, 0.1);
+            int mouseSpeed = Hypot(rx - x, ry - y) < 300 ? 5 : 15; //Move slower for shorter distances (more realistic)
+
+            double randomSpeed = Math.Max((Rand.Int(mouseSpeed) / 2.0 + mouseSpeed) / 10.0, 0.1);
 
             WindMouse(x, y, rx, ry, 9.0, 3.0, 10.0 / randomSpeed,
                 15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed);
@@ -89,7 +88,7 @@ namespace AutoClicker.Objects
 
                 if (dist >= targetArea)
                 {
-                    int w = random.Next((int)Math.Round(wind) * 2 + 1);
+                    int w = Rand.Int((int)Math.Round(wind) * 2 + 1);
                     windX = windX / sqrt3 + (w - wind) / sqrt5;
                     windY = windY / sqrt3 + (w - wind) / sqrt5;
                 }
@@ -98,7 +97,7 @@ namespace AutoClicker.Objects
                     windX = windX / sqrt2;
                     windY = windY / sqrt2;
                     if (maxStep < 3)
-                        maxStep = random.Next(3) + 3.0;
+                        maxStep = Rand.Int(3) + 3.0;
                     else
                         maxStep = maxStep / sqrt5;
                 }
@@ -110,7 +109,7 @@ namespace AutoClicker.Objects
 
                 if (Hypot(veloX, veloY) > maxStep)
                 {
-                    randomDist = maxStep / 2.0 + random.Next((int)Math.Round(maxStep) / 2);
+                    randomDist = maxStep / 2.0 + Rand.Int((int)Math.Round(maxStep) / 2);
                     veloMag = Hypot(veloX, veloY);
                     veloX = (veloX / veloMag) * randomDist;
                     veloY = (veloY / veloMag) * randomDist;
@@ -127,7 +126,6 @@ namespace AutoClicker.Objects
                 if (oldX != newX || oldY != newY)
                 {
                     Cursor.Position = new Point(newX, newY);
-                    //SetCursorPos(newX, newY);
                 }
 
                 step = Hypot(xs - oldX, ys - oldY);
@@ -140,7 +138,6 @@ namespace AutoClicker.Objects
             if (endX != newX || endY != newY)
             {
                 Cursor.Position = new Point(endX, endY);
-                //SetCursorPos(endX, endY);
             }
         }
 
@@ -148,11 +145,5 @@ namespace AutoClicker.Objects
         {
             return Math.Sqrt(dx * dx + dy * dy);
         }
-
-        [DllImport("user32.dll")]
-        static extern bool SetCursorPos(int X, int Y);
-
-        [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out Point p);
     }
 }

@@ -57,7 +57,7 @@ namespace AutoClicker.Objects
 
         public override string ToString()
         {
-            return $"[Click] MouseButton: {MouseButton}; Location: {ClickLocation}";
+            return $"[Click] MouseButton: {MouseButton}; Location: ({ClickLocation.X}±{ClickLocationVar.X}, {ClickLocation.Y}±{ClickLocationVar.Y})";
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
