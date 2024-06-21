@@ -39,6 +39,9 @@
             this.labelEventType = new System.Windows.Forms.Label();
             this.comboBoxEventType = new System.Windows.Forms.ComboBox();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.numericUpDownVarMs = new System.Windows.Forms.NumericUpDown();
+            this.labelVarMs = new System.Windows.Forms.Label();
+            this.labelVar = new System.Windows.Forms.Label();
             this.locationPickerStartLocation = new AutoClicker.Windows.LocationPicker();
             this.locationPickerEndLocation = new AutoClicker.Windows.LocationPicker();
             this.locationPickerClickEvent = new AutoClicker.Windows.LocationPicker();
@@ -46,6 +49,7 @@
             this.panelMouseMoveEvent.SuspendLayout();
             this.panelWaitEvent.SuspendLayout();
             this.panelClickEvent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVarMs)).BeginInit();
             this.SuspendLayout();
             // 
             // labelDuration
@@ -66,7 +70,7 @@
             0,
             0});
             this.numericUpDownDurationMs.Name = "numericUpDownDurationMs";
-            this.numericUpDownDurationMs.Size = new System.Drawing.Size(95, 20);
+            this.numericUpDownDurationMs.Size = new System.Drawing.Size(102, 20);
             this.numericUpDownDurationMs.TabIndex = 2;
             this.numericUpDownDurationMs.Value = new decimal(new int[] {
             50,
@@ -77,7 +81,7 @@
             // labelMs
             // 
             this.labelMs.AutoSize = true;
-            this.labelMs.Location = new System.Drawing.Point(107, 28);
+            this.labelMs.Location = new System.Drawing.Point(114, 28);
             this.labelMs.Name = "labelMs";
             this.labelMs.Size = new System.Drawing.Size(20, 13);
             this.labelMs.TabIndex = 3;
@@ -89,17 +93,20 @@
             this.panelMouseMoveEvent.Controls.Add(this.locationPickerEndLocation);
             this.panelMouseMoveEvent.Location = new System.Drawing.Point(226, 33);
             this.panelMouseMoveEvent.Name = "panelMouseMoveEvent";
-            this.panelMouseMoveEvent.Size = new System.Drawing.Size(220, 109);
+            this.panelMouseMoveEvent.Size = new System.Drawing.Size(220, 246);
             this.panelMouseMoveEvent.TabIndex = 5;
             // 
             // panelWaitEvent
             // 
+            this.panelWaitEvent.Controls.Add(this.labelVar);
+            this.panelWaitEvent.Controls.Add(this.numericUpDownVarMs);
+            this.panelWaitEvent.Controls.Add(this.labelVarMs);
             this.panelWaitEvent.Controls.Add(this.labelDuration);
             this.panelWaitEvent.Controls.Add(this.numericUpDownDurationMs);
             this.panelWaitEvent.Controls.Add(this.labelMs);
             this.panelWaitEvent.Location = new System.Drawing.Point(452, 33);
             this.panelWaitEvent.Name = "panelWaitEvent";
-            this.panelWaitEvent.Size = new System.Drawing.Size(220, 109);
+            this.panelWaitEvent.Size = new System.Drawing.Size(220, 247);
             this.panelWaitEvent.TabIndex = 6;
             // 
             // comboBoxMouseButton
@@ -131,7 +138,7 @@
             this.panelClickEvent.Controls.Add(this.comboBoxMouseButton);
             this.panelClickEvent.Location = new System.Drawing.Point(0, 35);
             this.panelClickEvent.Name = "panelClickEvent";
-            this.panelClickEvent.Size = new System.Drawing.Size(220, 109);
+            this.panelClickEvent.Size = new System.Drawing.Size(220, 244);
             this.panelClickEvent.TabIndex = 0;
             // 
             // labelEventType
@@ -159,7 +166,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(174, 164);
+            this.buttonSave.Location = new System.Drawing.Point(174, 286);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(46, 23);
             this.buttonSave.TabIndex = 9;
@@ -167,44 +174,88 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // numericUpDownVarMs
+            // 
+            this.numericUpDownVarMs.Location = new System.Drawing.Point(61, 52);
+            this.numericUpDownVarMs.Maximum = new decimal(new int[] {
+            -1530494976,
+            232830,
+            0,
+            0});
+            this.numericUpDownVarMs.Name = "numericUpDownVarMs";
+            this.numericUpDownVarMs.Size = new System.Drawing.Size(47, 20);
+            this.numericUpDownVarMs.TabIndex = 4;
+            this.numericUpDownVarMs.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // labelVarMs
+            // 
+            this.labelVarMs.AutoSize = true;
+            this.labelVarMs.Location = new System.Drawing.Point(114, 54);
+            this.labelVarMs.Name = "labelVarMs";
+            this.labelVarMs.Size = new System.Drawing.Size(20, 13);
+            this.labelVarMs.TabIndex = 5;
+            this.labelVarMs.Text = "ms";
+            // 
+            // labelVar
+            // 
+            this.labelVar.AutoSize = true;
+            this.labelVar.Location = new System.Drawing.Point(3, 54);
+            this.labelVar.Name = "labelVar";
+            this.labelVar.Size = new System.Drawing.Size(52, 13);
+            this.labelVar.TabIndex = 6;
+            this.labelVar.Text = "Variance:";
+            // 
             // locationPickerStartLocation
             // 
+            this.locationPickerStartLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
             this.locationPickerStartLocation.Location = new System.Drawing.Point(5, 7);
             this.locationPickerStartLocation.Name = "locationPickerStartLocation";
             this.locationPickerStartLocation.Point = new System.Drawing.Point(0, 0);
-            this.locationPickerStartLocation.Size = new System.Drawing.Size(102, 102);
+            this.locationPickerStartLocation.Size = new System.Drawing.Size(102, 236);
             this.locationPickerStartLocation.TabIndex = 5;
             this.locationPickerStartLocation.Title = "Start location";
             this.locationPickerStartLocation.X = 0;
+            this.locationPickerStartLocation.XVariance = 0;
             this.locationPickerStartLocation.Y = 0;
+            this.locationPickerStartLocation.YVariance = 0;
             // 
             // locationPickerEndLocation
             // 
+            this.locationPickerEndLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
             this.locationPickerEndLocation.Location = new System.Drawing.Point(113, 7);
             this.locationPickerEndLocation.Name = "locationPickerEndLocation";
             this.locationPickerEndLocation.Point = new System.Drawing.Point(0, 0);
-            this.locationPickerEndLocation.Size = new System.Drawing.Size(102, 102);
+            this.locationPickerEndLocation.Size = new System.Drawing.Size(102, 236);
             this.locationPickerEndLocation.TabIndex = 4;
             this.locationPickerEndLocation.Title = "End location";
             this.locationPickerEndLocation.X = 0;
+            this.locationPickerEndLocation.XVariance = 0;
             this.locationPickerEndLocation.Y = 0;
+            this.locationPickerEndLocation.YVariance = 0;
             // 
             // locationPickerClickEvent
             // 
+            this.locationPickerClickEvent.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
             this.locationPickerClickEvent.Location = new System.Drawing.Point(113, 7);
             this.locationPickerClickEvent.Name = "locationPickerClickEvent";
             this.locationPickerClickEvent.Point = new System.Drawing.Point(0, 0);
-            this.locationPickerClickEvent.Size = new System.Drawing.Size(102, 102);
+            this.locationPickerClickEvent.Size = new System.Drawing.Size(102, 238);
             this.locationPickerClickEvent.TabIndex = 4;
             this.locationPickerClickEvent.Title = "Location";
             this.locationPickerClickEvent.X = 0;
+            this.locationPickerClickEvent.XVariance = 0;
             this.locationPickerClickEvent.Y = 0;
+            this.locationPickerClickEvent.YVariance = 0;
             // 
             // AddEditEventDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 192);
+            this.ClientSize = new System.Drawing.Size(684, 311);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxEventType);
             this.Controls.Add(this.labelEventType);
@@ -220,6 +271,7 @@
             this.panelWaitEvent.PerformLayout();
             this.panelClickEvent.ResumeLayout(false);
             this.panelClickEvent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVarMs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,5 +292,8 @@
         private System.Windows.Forms.Label labelEventType;
         private System.Windows.Forms.ComboBox comboBoxEventType;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.NumericUpDown numericUpDownVarMs;
+        private System.Windows.Forms.Label labelVarMs;
+        private System.Windows.Forms.Label labelVar;
     }
 }

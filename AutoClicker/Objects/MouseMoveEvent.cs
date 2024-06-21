@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoClicker.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,17 +13,42 @@ namespace AutoClicker.Objects
 {
     public class MouseMoveEvent : IBaseEvent
     {
+        //Todo: convert to ImpreciseLocation (will break serialized objects)
+
+        public CoordinateSystem StartCoordinateSystem { get; set; }
+        public CoordinateSystem EndCoordinateSystem { get; set; }
+
         public Point StartLocation { get; set; }
         public Point EndLocation { get; set; }
 
+        public Variance StartLocationVar { get; set; }
+        public Variance EndLocationVar { get; set; }
+
         public void PerformAction()
         {
-            if (Cursor.Position != StartLocation)
+            Point adjustedStartLocation;
+            if (StartCoordinateSystem == CoordinateSystem.Absolute)
             {
-                MoveMouse(Cursor.Position.X, Cursor.Position.Y, StartLocation.X, StartLocation.Y);
+                adjustedStartLocation = new Point(StartLocation.X + Rand.Int(-StartLocationVar.X, StartLocationVar.X), StartLocation.Y + Rand.Int(-StartLocationVar.Y, StartLocationVar.Y));
+            }
+            else
+            {
+                adjustedStartLocation = new Point(Cursor.Position.X + StartLocation.X + Rand.Int(-StartLocationVar.X, StartLocationVar.X), Cursor.Position.Y + StartLocation.Y + Rand.Int(-StartLocationVar.Y, StartLocationVar.Y));
             }
 
-            MoveMouse(StartLocation.X, StartLocation.Y, EndLocation.X, EndLocation.Y);
+            if (Cursor.Position != adjustedStartLocation)
+            {
+                MoveMouse(Cursor.Position.X, Cursor.Position.Y, adjustedStartLocation.X, adjustedStartLocation.Y);
+            }
+
+            if (EndCoordinateSystem == CoordinateSystem.Absolute)
+            {
+                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, EndLocation.X + Rand.Int(-EndLocationVar.X, EndLocationVar.X), EndLocation.Y + Rand.Int(-EndLocationVar.Y, EndLocationVar.Y));
+            }
+            else
+            {
+                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, Cursor.Position.X + EndLocation.X + Rand.Int(-EndLocationVar.X, EndLocationVar.X), Cursor.Position.Y + EndLocation.Y + Rand.Int(-EndLocationVar.Y, EndLocationVar.Y));
+            }
         }
 
         public override string ToString()
@@ -31,7 +57,7 @@ namespace AutoClicker.Objects
         }
 
         static Random random = new Random();
-        static int mouseSpeed = 20;
+        static int mouseSpeed = 15;
 
         public static void MoveMouse(int x, int y, int rx, int ry)
         {
@@ -39,26 +65,6 @@ namespace AutoClicker.Objects
 
             WindMouse(x, y, rx, ry, 9.0, 3.0, 10.0 / randomSpeed,
                 15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed);
-
-
-
-
-            //Cursor.Position = new Point(rx, ry);
-
-
-
-            ////Point c = new Point();
-            ////GetCursorPos(out c);
-
-            //Point c = Cursor.Position;
-
-            //x += random.Next(rx);
-            //y += random.Next(ry);
-
-            //double randomSpeed = Math.Max((random.Next(mouseSpeed) / 2.0 + mouseSpeed) / 10.0, 0.1);
-
-            //WindMouse(c.X, c.Y, x, y, 9.0, 3.0, 10.0 / randomSpeed,
-            //    15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed);
         }
 
         static void WindMouse(double xs, double ys, double xe, double ye,

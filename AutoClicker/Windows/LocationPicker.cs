@@ -1,4 +1,5 @@
 ﻿using AutoClicker.Helpers;
+using AutoClicker.Objects;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,12 +11,29 @@ namespace AutoClicker.Windows
         public LocationPicker()
         {
             InitializeComponent();
+
+            comboBoxCoordinateSystem.SelectedIndex = 0;
+        }
+
+        //Todo: convert to ImpreciseLocation (will break serialized objects)
+        public void SetValues(CoordinateSystem coordinateSystem, Point point, Variance variance)
+        {
+            CoordinateSystem = coordinateSystem;
+            Point = point;
+            XVariance = variance.X;
+            YVariance = variance.Y;
         }
 
         public string Title
         {
             get { return groupBox.Text; }
             set { groupBox.Text = value; }
+        }
+
+        public CoordinateSystem CoordinateSystem
+        {
+            get { return (CoordinateSystem)Enum.Parse(typeof(CoordinateSystem), comboBoxCoordinateSystem.Text); }
+            set { comboBoxCoordinateSystem.Text = value.ToString(); }
         }
 
         public int X
@@ -40,9 +58,21 @@ namespace AutoClicker.Windows
             }
         }
 
+        public int XVariance
+        {
+            get { return Convert.ToInt32(textBoxVarX.Text); }
+            set { textBoxVarX.Text = value.ToString(); }
+        }
+
+        public int YVariance
+        {
+            get { return Convert.ToInt32(textBoxVarY.Text); }
+            set { textBoxVarY.Text = value.ToString(); }
+        }
+
         private void buttonPick_Click(object sender, EventArgs e)
         {
-            MouseLocationHelper.LocationPickCallback += SaveChosenPoint;
+            MouseLocationHelper.LocationChangeCallback += SaveChosenPoint;
         }
 
         private void SaveChosenPoint(Point point)
@@ -50,7 +80,7 @@ namespace AutoClicker.Windows
             X = point.X;
             Y = point.Y;
 
-            MouseLocationHelper.LocationPickCallback -= SaveChosenPoint;
+            MouseLocationHelper.LocationChangeCallback -= SaveChosenPoint;
         }
     }
 }

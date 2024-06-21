@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using AutoClicker.Helpers;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -15,13 +16,29 @@ namespace AutoClicker.Objects
     {
         public MouseButton MouseButton { get; set; }
 
+        //Todo: convert to ImpreciseLocation (will break serialized objects)
+
+        public CoordinateSystem CoordinateSystem { get; set; }
+
         public Point ClickLocation { get; set; }
+
+        public Variance ClickLocationVar { get; set; }
 
         public void PerformAction()
         {
-            if (Cursor.Position != ClickLocation)
+            Point adjustedClickLocation;
+            if (CoordinateSystem == CoordinateSystem.Absolute)
             {
-                MouseMoveEvent.MoveMouse(Cursor.Position.X, Cursor.Position.Y, ClickLocation.X, ClickLocation.Y);
+                adjustedClickLocation = new Point(ClickLocation.X + Rand.Int(-ClickLocationVar.X, ClickLocationVar.X), ClickLocation.Y + Rand.Int(-ClickLocationVar.Y, ClickLocationVar.Y));
+            }
+            else
+            {
+                adjustedClickLocation = new Point(Cursor.Position.X + ClickLocation.X + Rand.Int(-ClickLocationVar.X, ClickLocationVar.X), Cursor.Position.Y + ClickLocation.Y + Rand.Int(-ClickLocationVar.Y, ClickLocationVar.Y));
+            }
+
+            if (Cursor.Position != adjustedClickLocation)
+            {
+                MouseMoveEvent.MoveMouse(Cursor.Position.X, Cursor.Position.Y, adjustedClickLocation.X, adjustedClickLocation.Y);
             }
 
             switch(MouseButton)

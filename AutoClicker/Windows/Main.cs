@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
 using AutoClicker.Objects;
 using AutoClicker.Windows;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AutoClicker
 {
@@ -89,6 +91,10 @@ namespace AutoClicker
                         TypeNameHandling = TypeNameHandling.Objects,
                         TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                         Formatting = Formatting.Indented,
+                        Converters = new List<JsonConverter>
+                        {
+                            new StringEnumConverter()
+                        },
                     }));
                 }
             }
@@ -125,6 +131,39 @@ namespace AutoClicker
                         listBoxQueue.Items.Add(action);
                     }
                 }
+            }
+        }
+
+        private void checkBoxDisplayMouseLoc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDisplayMouseLoc.Checked)
+            {
+                MouseLocationHelper.LocationChangeCallback += MouseLocationUpdate;
+            }
+            else
+            {
+                MouseLocationHelper.LocationChangeCallback -= MouseLocationUpdate;
+            }
+        }
+
+        private void MouseLocationUpdate(Point p)
+        {
+            toolStripStatusLabelMouseLoc.Text = $"Mouse Location: {p.X}, {p.Y}";
+            statusStrip.Update();
+        }
+
+        private void listBoxQueue_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = listBoxQueue.IndexFromPoint(e.Location);
+            if (index != ListBox.NoMatches)
+            {
+                AddEditEventDialog editDialog = new AddEditEventDialog(listBoxQueue.Items[index] as IBaseEvent);
+                editDialog.ResultEventAction += result =>
+                {
+                    listBoxQueue.Items.RemoveAt(index);
+                    listBoxQueue.Items.Insert(index, result);
+                };
+                editDialog.ShowDialog();
             }
         }
     }

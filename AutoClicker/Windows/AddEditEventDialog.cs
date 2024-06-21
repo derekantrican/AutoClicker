@@ -37,16 +37,24 @@ namespace AutoClicker.Windows
             {
                 if (baseEvent is ClickEvent clickEvent)
                 {
+                    comboBoxEventType.SelectedIndex = 0;
                     SetVisibleEventPanel(EventType.ClickEvent);
                     comboBoxMouseButton.SelectedIndex = (int)clickEvent.MouseButton;
+                    locationPickerClickEvent.SetValues(clickEvent.CoordinateSystem, clickEvent.ClickLocation, clickEvent.ClickLocationVar);
                 }
                 else if (baseEvent is MouseMoveEvent mouseMoveEvent)
                 {
+                    comboBoxEventType.SelectedIndex = 1;
                     SetVisibleEventPanel(EventType.MouseMoveEvent);
+                    locationPickerStartLocation.SetValues(mouseMoveEvent.StartCoordinateSystem, mouseMoveEvent.StartLocation, mouseMoveEvent.StartLocationVar);
+                    locationPickerEndLocation.SetValues(mouseMoveEvent.EndCoordinateSystem, mouseMoveEvent.EndLocation, mouseMoveEvent.EndLocationVar);
                 }
                 else if (baseEvent is WaitEvent waitEvent)
                 {
+                    comboBoxEventType.SelectedIndex = 2;
                     SetVisibleEventPanel(EventType.WaitEvent);
+                    numericUpDownDurationMs.Value = (decimal)waitEvent.WaitDuration.TotalMilliseconds;
+                    numericUpDownVarMs.Value = waitEvent.VarianceMs;
                 }
             }
         }
@@ -86,20 +94,27 @@ namespace AutoClicker.Windows
                     ResultEventAction?.Invoke(new ClickEvent
                     {
                         MouseButton = (MouseButton)comboBoxMouseButton.SelectedIndex,
+                        CoordinateSystem = locationPickerClickEvent.CoordinateSystem,
                         ClickLocation = locationPickerClickEvent.Point,
+                        ClickLocationVar = new Variance(locationPickerClickEvent.XVariance, locationPickerClickEvent.YVariance),
                     });
                     break;
                 case EventType.MouseMoveEvent:
                     ResultEventAction?.Invoke(new MouseMoveEvent
                     {
+                        StartCoordinateSystem = locationPickerStartLocation.CoordinateSystem,
+                        EndCoordinateSystem = locationPickerEndLocation.CoordinateSystem,
                         StartLocation = locationPickerStartLocation.Point,
                         EndLocation = locationPickerEndLocation.Point,
+                        StartLocationVar = new Variance(locationPickerStartLocation.XVariance, locationPickerStartLocation.YVariance),
+                        EndLocationVar = new Variance(locationPickerEndLocation.XVariance, locationPickerEndLocation.YVariance),
                     });
                     break;
                 case EventType.WaitEvent:
                     ResultEventAction?.Invoke(new WaitEvent
                     {
                         WaitDuration = TimeSpan.FromMilliseconds((double)numericUpDownDurationMs.Value),
+                        VarianceMs = (int)numericUpDownVarMs.Value,
                     });
                     break;
             }

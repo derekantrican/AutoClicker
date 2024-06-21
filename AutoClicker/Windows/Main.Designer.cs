@@ -40,6 +40,8 @@
             this.numericUpDownRepeat = new System.Windows.Forms.NumericUpDown();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
+            this.toolStripStatusLabelMouseLoc = new System.Windows.Forms.ToolStripStatusLabel();
+            this.checkBoxDisplayMouseLoc = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.SuspendLayout();
@@ -76,12 +78,14 @@
             this.listBoxQueue.Name = "listBoxQueue";
             this.listBoxQueue.Size = new System.Drawing.Size(798, 316);
             this.listBoxQueue.TabIndex = 3;
+            this.listBoxQueue.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxQueue_MouseDoubleClick);
             // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar,
-            this.toolStripStatusLabel});
+            this.toolStripStatusLabel,
+            this.toolStripStatusLabelMouseLoc});
             this.statusStrip.Location = new System.Drawing.Point(0, 428);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(800, 22);
@@ -96,7 +100,8 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(683, 17);
+            this.toolStripStatusLabel.Spring = true;
             // 
             // buttonAdd
             // 
@@ -173,11 +178,28 @@
             this.buttonLoad.UseVisualStyleBackColor = true;
             this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
+            // toolStripStatusLabelMouseLoc
+            // 
+            this.toolStripStatusLabelMouseLoc.Name = "toolStripStatusLabelMouseLoc";
+            this.toolStripStatusLabelMouseLoc.Size = new System.Drawing.Size(0, 17);
+            // 
+            // checkBoxDisplayMouseLoc
+            // 
+            this.checkBoxDisplayMouseLoc.AutoSize = true;
+            this.checkBoxDisplayMouseLoc.Location = new System.Drawing.Point(562, 12);
+            this.checkBoxDisplayMouseLoc.Name = "checkBoxDisplayMouseLoc";
+            this.checkBoxDisplayMouseLoc.Size = new System.Drawing.Size(149, 30);
+            this.checkBoxDisplayMouseLoc.TabIndex = 11;
+            this.checkBoxDisplayMouseLoc.Text = "Display mouse location\r\nin status bar when clicked";
+            this.checkBoxDisplayMouseLoc.UseVisualStyleBackColor = true;
+            this.checkBoxDisplayMouseLoc.CheckedChanged += new System.EventHandler(this.checkBoxDisplayMouseLoc_CheckedChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkBoxDisplayMouseLoc);
             this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.numericUpDownRepeat);
@@ -212,6 +234,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDownRepeat;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonLoad;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelMouseLoc;
+        private System.Windows.Forms.CheckBox checkBoxDisplayMouseLoc;
     }
 }
 

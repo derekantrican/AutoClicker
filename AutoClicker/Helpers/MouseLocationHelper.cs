@@ -8,7 +8,7 @@ namespace AutoClicker.Helpers
 {
     public static class MouseLocationHelper
     {
-        public static Action<Point> LocationPickCallback;
+        public static Action<Point> LocationChangeCallback;
 
         public static void Init()
         {
@@ -42,7 +42,7 @@ namespace AutoClicker.Helpers
         {
             if (GetCursorPos(out POINT p))
             {
-                LocationPickCallback?.Invoke(new Point(p.X, p.Y));
+                LocationChangeCallback?.Invoke(new Point(p.X, p.Y));
             }
         }
 

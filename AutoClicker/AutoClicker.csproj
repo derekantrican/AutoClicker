@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\MouseLocationHelper.cs" />
+    <Compile Include="Helpers\Rand.cs" />
+    <Compile Include="Objects\ImpreciseLocation.cs" />
+    <Compile Include="Objects\Variance.cs" />
     <Compile Include="Windows\AddEditEventDialog.cs">
       <SubType>Form</SubType>
     </Compile>

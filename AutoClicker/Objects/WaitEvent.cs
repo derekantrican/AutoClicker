@@ -11,11 +11,11 @@ namespace AutoClicker.Objects
     {
         public TimeSpan WaitDuration { get; set; }
 
-        public int RandomWaitMs { get; set; } = 350;
+        public int VarianceMs { get; set; } = 350;
 
         public void PerformAction()
         {
-            Thread.Sleep(WaitDuration.Add(TimeSpan.FromMilliseconds(new Random().Next(RandomWaitMs))));
+            Thread.Sleep(WaitDuration.Add(TimeSpan.FromMilliseconds(new Random().Next(VarianceMs))));
         }
 
         public override string ToString()
