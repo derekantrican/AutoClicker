@@ -36,7 +36,7 @@ namespace AutoClicker
             listBoxQueue.Items.RemoveAt(listBoxQueue.SelectedIndex);
         }
 
-        bool isStopped = false;
+        bool isStopped = false; //Todo: convert to CancellationToken
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
@@ -58,9 +58,11 @@ namespace AutoClicker
                         return;
                     }
 
+                    //listBoxQueue.SelectedItem = item;
+
                     if (item is IBaseEvent baseEvent)
                     {
-                        baseEvent.PerformAction(); //Todo: this might have to be async
+                        baseEvent.PerformAction(); //Todo: this needs to be async
                     }
                 }
 
@@ -73,7 +75,7 @@ namespace AutoClicker
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            isStopped = true;
+            isStopped = true; //Todo: this doesn't work because the Thread.Sleep blocks the UI thread
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
