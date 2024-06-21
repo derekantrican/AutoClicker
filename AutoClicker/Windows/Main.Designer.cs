@@ -185,6 +185,7 @@
             // 
             // checkBoxDisplayMouseLoc
             // 
+            this.checkBoxDisplayMouseLoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxDisplayMouseLoc.AutoSize = true;
             this.checkBoxDisplayMouseLoc.Location = new System.Drawing.Point(562, 12);
             this.checkBoxDisplayMouseLoc.Name = "checkBoxDisplayMouseLoc";
