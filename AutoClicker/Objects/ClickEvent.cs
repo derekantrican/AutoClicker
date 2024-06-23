@@ -1,7 +1,7 @@
-﻿using AutoClicker.Helpers;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using AutoClicker.Helpers;
 
 namespace AutoClicker.Objects
 {

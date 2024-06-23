@@ -14,6 +14,10 @@ namespace AutoClicker
 {
     public partial class Main : Form
     {
+        //Todo: save target program's window position and allow adjusting all absolute coordinates to compensate
+        //  - We may even want an addition CoordinateSystem option of "Relative to Window" so it works regardless of where the window is
+        //Todo: allow re-arrange queue list (at a minimum: up & down arrows)
+
         public Main()
         {
             InitializeComponent();
