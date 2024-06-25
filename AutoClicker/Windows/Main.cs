@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
 using AutoClicker.Objects;
@@ -50,30 +51,30 @@ namespace AutoClicker
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
+            List<IBaseEvent> queuedActions = listBoxQueue.Items.Cast<IBaseEvent>().ToList();
+
             for (int i = 0; i < numericUpDownRepeat.Value; i++)
             {
                 toolStripStatusLabel.Text = $"Running iteration: {i + 1} / {numericUpDownRepeat.Value}";
                 statusStrip.Update(); //Update label
 
-                foreach (object item in listBoxQueue.Items)
+                foreach (IBaseEvent action in queuedActions)
                 {
                     if (isStopped)
                     {
                         return;
                     }
 
-                    //listBoxQueue.SelectedItem = item;
+                    listBoxQueue.SelectedItem = action;
 
-                    if (item is IBaseEvent baseEvent)
-                    {
-                        baseEvent.PerformAction(); //Todo: this needs to be async
-                    }
+                    action.PerformAction(); //Todo: this needs to be async
                 }
 
                 toolStripProgressBar.Value++;
                 statusStrip.Update(); //Update progress bar
             }
 
+            listBoxQueue.SelectedItem = null;
             toolStripStatusLabel.Text = $"Finished! {numericUpDownRepeat.Value} / {numericUpDownRepeat.Value} (elapsed: {stopwatch.Elapsed})";
         }
 
@@ -118,8 +119,6 @@ namespace AutoClicker
                 }
             }
 
-            listBoxQueue.Items.Clear();
-
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
                 dialog.Filter = "json files (*.json)|*.json";
@@ -127,6 +126,8 @@ namespace AutoClicker
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    listBoxQueue.Items.Clear();
+
                     List<IBaseEvent> actions = JsonConvert.DeserializeObject<List<IBaseEvent>>(File.ReadAllText(dialog.FileName), new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Objects,
