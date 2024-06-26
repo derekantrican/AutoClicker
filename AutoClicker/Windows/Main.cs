@@ -18,6 +18,10 @@ namespace AutoClicker
         //Todo: save target program's window position and allow adjusting all absolute coordinates to compensate
         //  - We may even want an addition CoordinateSystem option of "Relative to Window" so it works regardless of where the window is
         //Todo: allow re-arrange queue list (at a minimum: up & down arrows)
+        //Todo: maybe use native GetCursorPos and SetCursorPos instead of Cursor.Postion (maybe this is more reliable?)
+        //Todo: maybe allow keyboard input
+        //Todo: maybe add a hook for listening for keyboard events and stop running actions after Esc (or maybe 3x Esc) is pressed
+        //    (because moving the cursor to the "stop" button could be hard while the program is running)
 
         public Main()
         {
