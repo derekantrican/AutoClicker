@@ -45,11 +45,16 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageActions = new System.Windows.Forms.TabPage();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.groupBoxWindow = new System.Windows.Forms.GroupBox();
+            this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
+            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.labelWindowInfo = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabPageActions.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
+            this.groupBoxWindow.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPlay
@@ -106,7 +111,7 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(683, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(397, 17);
             this.toolStripStatusLabel.Spring = true;
             // 
             // toolStripStatusLabelMouseLoc
@@ -231,6 +236,7 @@
             // 
             // tabPageSettings
             // 
+            this.tabPageSettings.Controls.Add(this.groupBoxWindow);
             this.tabPageSettings.Controls.Add(this.checkBoxDisplayMouseLoc);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettings.Name = "tabPageSettings";
@@ -239,6 +245,47 @@
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxWindow
+            // 
+            this.groupBoxWindow.Controls.Add(this.labelWindowInfo);
+            this.groupBoxWindow.Controls.Add(this.buttonRefresh);
+            this.groupBoxWindow.Controls.Add(this.comboBoxWindowList);
+            this.groupBoxWindow.Location = new System.Drawing.Point(6, 42);
+            this.groupBoxWindow.Name = "groupBoxWindow";
+            this.groupBoxWindow.Size = new System.Drawing.Size(326, 161);
+            this.groupBoxWindow.TabIndex = 12;
+            this.groupBoxWindow.TabStop = false;
+            this.groupBoxWindow.Text = "Target Window";
+            // 
+            // comboBoxWindowList
+            // 
+            this.comboBoxWindowList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWindowList.FormattingEnabled = true;
+            this.comboBoxWindowList.Location = new System.Drawing.Point(6, 19);
+            this.comboBoxWindowList.Name = "comboBoxWindowList";
+            this.comboBoxWindowList.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxWindowList.TabIndex = 0;
+            this.comboBoxWindowList.SelectedValueChanged += new System.EventHandler(this.comboBoxWindowList_SelectedValueChanged);
+            // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRefresh.Location = new System.Drawing.Point(133, 17);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(23, 25);
+            this.buttonRefresh.TabIndex = 1;
+            this.buttonRefresh.Text = "🔄";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            // 
+            // labelWindowInfo
+            // 
+            this.labelWindowInfo.AutoSize = true;
+            this.labelWindowInfo.Location = new System.Drawing.Point(6, 43);
+            this.labelWindowInfo.Name = "labelWindowInfo";
+            this.labelWindowInfo.Size = new System.Drawing.Size(0, 13);
+            this.labelWindowInfo.TabIndex = 13;
             // 
             // Main
             // 
@@ -261,6 +308,8 @@
             this.tabPageActions.ResumeLayout(false);
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
+            this.groupBoxWindow.ResumeLayout(false);
+            this.groupBoxWindow.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,6 +333,10 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageActions;
         private System.Windows.Forms.TabPage tabPageSettings;
+        private System.Windows.Forms.GroupBox groupBoxWindow;
+        private System.Windows.Forms.ComboBox comboBoxWindowList;
+        private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Label labelWindowInfo;
     }
 }
 

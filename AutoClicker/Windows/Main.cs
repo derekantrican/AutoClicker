@@ -177,5 +177,43 @@ namespace AutoClicker
                 editDialog.ShowDialog();
             }
         }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            comboBoxWindowList.Items.Clear();
+            comboBoxWindowList.Items.AddRange(Process.GetProcesses().Where(p => !string.IsNullOrEmpty(p.MainWindowTitle)).Select(p => new WindowInfo(p)).ToArray());
+            UpdateComboboxDropDownWidth(comboBoxWindowList);
+        }
+
+        //https://stackoverflow.com/a/4842576
+        private void UpdateComboboxDropDownWidth(ComboBox comboBox)
+        {
+            int maxWidth = 0;
+            int temp = 0;
+            Label label1 = new Label();
+
+            foreach (var obj in comboBox.Items)
+            {
+                label1.Text = obj.ToString();
+                temp = label1.PreferredWidth;
+                if (temp > maxWidth)
+                {
+                    maxWidth = temp;
+                }
+            }
+
+            label1.Dispose();
+
+            comboBox.DropDownWidth = maxWidth;
+        }
+
+        private void comboBoxWindowList_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (comboBoxWindowList.SelectedItem != null && comboBoxWindowList.SelectedItem is WindowInfo windowInfo)
+            {
+                Rect selectedWindowBounds = windowInfo.GetBounds();
+                labelWindowInfo.Text = $"Location: ({selectedWindowBounds.Left}, {selectedWindowBounds.Top}), Width: {selectedWindowBounds.Right - selectedWindowBounds.Left}, Height: {selectedWindowBounds.Bottom - selectedWindowBounds.Top}";
+            }
+        }
     }
 }
