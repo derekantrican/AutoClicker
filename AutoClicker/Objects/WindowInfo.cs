@@ -21,15 +21,20 @@ namespace AutoClicker.Objects
             return bounds;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr FindWindow(string strClassName, string strWindowName);
-
-        [DllImport("user32.dll")]
-        public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
+        public void AdjustWindow(int x, int y, int width, int height) //Todo: use
+        {
+            MoveWindow(Process.MainWindowHandle, x, y, width, height, true);
+        }
 
         public override string ToString()
         {
             return Process.MainWindowTitle;
         }
+
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 }
