@@ -97,6 +97,7 @@ namespace AutoClicker
 
                 if (!string.IsNullOrEmpty(dialog.FileName))
                 {
+                    //Todo: also save target window position & size (if no target window is selected, we should grab the window from the first click location and save its current position & size)
                     File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(listBoxQueue.Items, new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Objects,
@@ -141,6 +142,10 @@ namespace AutoClicker
                     {
                         listBoxQueue.Items.Add(action);
                     }
+
+                    //Todo: load saved target window along with position & size
+                    //Todo: MessageBox warn if target window can't be found
+                    //Todo: MessageBox warn (and maybe select "Settings" tab) if window position & size are not the same as saved value
                 }
             }
         }

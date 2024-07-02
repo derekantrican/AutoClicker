@@ -46,9 +46,10 @@
             this.tabPageActions = new System.Windows.Forms.TabPage();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.groupBoxWindow = new System.Windows.Forms.GroupBox();
-            this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
-            this.buttonRefresh = new System.Windows.Forms.Button();
             this.labelWindowInfo = new System.Windows.Forms.Label();
+            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -248,6 +249,7 @@
             // 
             // groupBoxWindow
             // 
+            this.groupBoxWindow.Controls.Add(this.label1);
             this.groupBoxWindow.Controls.Add(this.labelWindowInfo);
             this.groupBoxWindow.Controls.Add(this.buttonRefresh);
             this.groupBoxWindow.Controls.Add(this.comboBoxWindowList);
@@ -258,15 +260,13 @@
             this.groupBoxWindow.TabStop = false;
             this.groupBoxWindow.Text = "Target Window";
             // 
-            // comboBoxWindowList
+            // labelWindowInfo
             // 
-            this.comboBoxWindowList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxWindowList.FormattingEnabled = true;
-            this.comboBoxWindowList.Location = new System.Drawing.Point(6, 19);
-            this.comboBoxWindowList.Name = "comboBoxWindowList";
-            this.comboBoxWindowList.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxWindowList.TabIndex = 0;
-            this.comboBoxWindowList.SelectedValueChanged += new System.EventHandler(this.comboBoxWindowList_SelectedValueChanged);
+            this.labelWindowInfo.AutoSize = true;
+            this.labelWindowInfo.Location = new System.Drawing.Point(6, 43);
+            this.labelWindowInfo.Name = "labelWindowInfo";
+            this.labelWindowInfo.Size = new System.Drawing.Size(0, 13);
+            this.labelWindowInfo.TabIndex = 13;
             // 
             // buttonRefresh
             // 
@@ -279,13 +279,26 @@
             this.buttonRefresh.UseVisualStyleBackColor = true;
             this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
-            // labelWindowInfo
+            // comboBoxWindowList
             // 
-            this.labelWindowInfo.AutoSize = true;
-            this.labelWindowInfo.Location = new System.Drawing.Point(6, 43);
-            this.labelWindowInfo.Name = "labelWindowInfo";
-            this.labelWindowInfo.Size = new System.Drawing.Size(0, 13);
-            this.labelWindowInfo.TabIndex = 13;
+            this.comboBoxWindowList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWindowList.FormattingEnabled = true;
+            this.comboBoxWindowList.Location = new System.Drawing.Point(6, 19);
+            this.comboBoxWindowList.Name = "comboBoxWindowList";
+            this.comboBoxWindowList.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxWindowList.TabIndex = 0;
+            this.comboBoxWindowList.SelectedValueChanged += new System.EventHandler(this.comboBoxWindowList_SelectedValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(27, 80);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(219, 39);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Todo: show saved window position & size\r\nand add \"adjust\" button to snap the sele" +
+    "cted\r\nwindow to the saved position & size";
             // 
             // Main
             // 
@@ -337,6 +350,7 @@
         private System.Windows.Forms.ComboBox comboBoxWindowList;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Label labelWindowInfo;
+        private System.Windows.Forms.Label label1;
     }
 }
 
