@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
 using AutoClicker.Objects;
@@ -39,39 +40,68 @@ namespace AutoClicker
             toolStripProgressBar.Maximum = (int)numericUpDownRepeat.Value;
             toolStripProgressBar.Value = 0;
 
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
-            List<IBaseEvent> queuedActions = listBoxQueue.Items.Cast<IBaseEvent>().ToList();
-
-            for (int i = 0; i < numericUpDownRepeat.Value; i++)
+            Task.Run(() =>
             {
-                toolStripStatusLabel.Text = $"Running iteration: {i + 1} / {numericUpDownRepeat.Value}";
-                statusStrip.Update(); //Update label
+                Stopwatch stopwatch = Stopwatch.StartNew();
 
-                foreach (IBaseEvent action in queuedActions)
+                List<IBaseEvent> queuedActions = listBoxQueue.Items.Cast<IBaseEvent>().ToList();
+
+                for (int i = 0; i < numericUpDownRepeat.Value; i++)
                 {
-                    if (isStopped)
+                    UpdateControlOnUI(statusStrip, () =>
+                    { 
+                        toolStripStatusLabel.Text = $"Running iteration: {i + 1} / {numericUpDownRepeat.Value}";
+                        statusStrip.Update(); 
+                    });
+
+                    foreach (IBaseEvent action in queuedActions)
                     {
-                        return;
+                        if (isStopped)
+                        {
+                            UpdateControlOnUI(statusStrip, () =>
+                            {
+                                toolStripStatusLabel.Text = $"Stopped! {i} / {numericUpDownRepeat.Value} (elapsed: {stopwatch.Elapsed})";
+                                statusStrip.Update();
+                            });
+
+                            UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = null);
+                            UpdateControlOnUI(buttonPlay, () => buttonPlay.Enabled = true);
+                            return;
+                        }
+
+                        UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = action);
+
+                        action.PerformAction();
                     }
 
-                    listBoxQueue.SelectedItem = action;
-
-                    action.PerformAction(); //Todo: this needs to be async
+                    UpdateControlOnUI(statusStrip, () =>
+                    {
+                        toolStripProgressBar.Value++;
+                        statusStrip.Update();
+                    });
                 }
 
-                toolStripProgressBar.Value++;
-                statusStrip.Update(); //Update progress bar
-            }
+                UpdateControlOnUI(statusStrip, () =>
+                {
+                    toolStripStatusLabel.Text = $"Finished! {numericUpDownRepeat.Value} / {numericUpDownRepeat.Value} (elapsed: {stopwatch.Elapsed})";
+                    statusStrip.Update();
+                });
+                UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = null);
+                UpdateControlOnUI(buttonPlay, () => buttonPlay.Enabled = true);
+            });
+        }
 
-            listBoxQueue.SelectedItem = null;
-            toolStripStatusLabel.Text = $"Finished! {numericUpDownRepeat.Value} / {numericUpDownRepeat.Value} (elapsed: {stopwatch.Elapsed})";
-            buttonPlay.Enabled = true;
+        private void UpdateControlOnUI(Control control, Action action)
+        {
+            control.Invoke((MethodInvoker)delegate
+            {
+                action();
+            });
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            isStopped = true; //Todo: this doesn't work because the Thread.Sleep blocks the UI thread
+            isStopped = true;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
