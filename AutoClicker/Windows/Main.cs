@@ -15,8 +15,6 @@ namespace AutoClicker
 {
     public partial class Main : Form
     {
-        //Todo: save target program's window position and allow adjusting all absolute coordinates to compensate
-        //  - We may even want an addition CoordinateSystem option of "Relative to Window" so it works regardless of where the window is
         //Todo: allow re-arrange queue list (at a minimum: up & down arrows)
         //Todo: maybe use native GetCursorPos and SetCursorPos instead of Cursor.Postion (maybe this is more reliable?)
         //Todo: maybe allow keyboard input
@@ -99,8 +97,19 @@ namespace AutoClicker
 
                 if (!string.IsNullOrEmpty(dialog.FileName))
                 {
-                    //Todo: also save target window position & size (if no target window is selected, we should grab the window from the first click location and save its current position & size)
-                    File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(listBoxQueue.Items, new JsonSerializerSettings
+                    //Todo: if no target window is selected, we should grab the window from the first click location and save its current position & size
+                    SavedWindow savedWindow = comboBoxWindowList.SelectedItem == null ? null : new SavedWindow
+                    {
+                        Title = (comboBoxWindowList.SelectedItem as WindowInfo).Process.MainWindowTitle,
+                        Bounds = (comboBoxWindowList.SelectedItem as WindowInfo).GetBounds(), //Calling GetBounds again ensures that we have the latest bounds for the window
+                    };
+
+                    File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(new SaveData
+                    {
+                        TargetWindow = savedWindow,
+                        Actions = listBoxQueue.Items.Cast<IBaseEvent>().ToList(),
+                    }, 
+                    new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Objects,
                         TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
@@ -135,19 +144,45 @@ namespace AutoClicker
                 {
                     listBoxQueue.Items.Clear();
 
-                    List<IBaseEvent> actions = JsonConvert.DeserializeObject<List<IBaseEvent>>(File.ReadAllText(dialog.FileName), new JsonSerializerSettings
+                    SaveData saveData = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText(dialog.FileName), new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Objects,
                     });
 
-                    foreach (IBaseEvent action in actions)
+                    foreach (IBaseEvent action in saveData.Actions)
                     {
                         listBoxQueue.Items.Add(action);
                     }
 
-                    //Todo: load saved target window along with position & size
-                    //Todo: MessageBox warn if target window can't be found
-                    //Todo: MessageBox warn (and maybe select "Settings" tab) if window position & size are not the same as saved value
+                    if (checkBoxRestoreWindow.Checked && saveData.TargetWindow != null)
+                    {
+                        buttonRefresh_Click(null, null); //Refresh list of open windows
+
+                        List<WindowInfo> windowList = comboBoxWindowList.Items.Cast<WindowInfo>().ToList();
+                        WindowInfo matchingTargetWindow = windowList.Find(w => w.Process.MainWindowTitle == saveData.TargetWindow.Title);
+                        //Todo: attempt to find by process name or something better if title doesn't work
+                        //Todo: warn if there are multiple matching windows found
+                        if (matchingTargetWindow == null)
+                        {
+                            MessageBox.Show($"Can't find a matching window for saved target window '{saveData.TargetWindow.Title}'", "Target window not found (by title)");
+                        }
+                        else if (matchingTargetWindow.GetBounds().ToString() != saveData.TargetWindow.Bounds.ToString()) //ToString is not "technically proper" but is the easiest
+                        {
+                            DialogResult result = MessageBox.Show($"The postion or size for '{saveData.TargetWindow.Title}' is not the same as last time. Adjust the target window to match saved position & size?\n" +
+                                $"\nSaved: {saveData.TargetWindow.Bounds}" +
+                                $"\nCurrent: {matchingTargetWindow.GetBounds()}",
+                                "Target window size/position not the same",
+                                MessageBoxButtons.YesNo);
+
+                            if (result == DialogResult.Yes)
+                            {
+                                Rect savedBounds = saveData.TargetWindow.Bounds;
+                                //Todo: maybe check if (Left, Top) will put the Window off the screen & warn
+
+                                matchingTargetWindow.AdjustWindowBounds(savedBounds);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -218,8 +253,7 @@ namespace AutoClicker
         {
             if (comboBoxWindowList.SelectedItem != null && comboBoxWindowList.SelectedItem is WindowInfo windowInfo)
             {
-                Rect selectedWindowBounds = windowInfo.GetBounds();
-                labelWindowInfo.Text = $"Location: ({selectedWindowBounds.Left}, {selectedWindowBounds.Top}), Width: {selectedWindowBounds.Right - selectedWindowBounds.Left}, Height: {selectedWindowBounds.Bottom - selectedWindowBounds.Top}";
+                labelWindowInfo.Text = windowInfo.GetBounds().ToString();
             }
         }
     }

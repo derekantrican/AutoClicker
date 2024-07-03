@@ -21,9 +21,9 @@ namespace AutoClicker.Objects
             return bounds;
         }
 
-        public void AdjustWindow(int x, int y, int width, int height) //Todo: use
+        public void AdjustWindowBounds(Rect bounds)
         {
-            MoveWindow(Process.MainWindowHandle, x, y, width, height, true);
+            MoveWindow(Process.MainWindowHandle, bounds.Left, bounds.Top, bounds.Right - bounds.Left, bounds.Bottom - bounds.Top, true);
         }
 
         public override string ToString()

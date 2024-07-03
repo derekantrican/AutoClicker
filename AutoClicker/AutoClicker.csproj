@@ -56,6 +56,7 @@
     <Compile Include="Helpers\Rand.cs" />
     <Compile Include="Objects\ImpreciseLocation.cs" />
     <Compile Include="Objects\Rect.cs" />
+    <Compile Include="Objects\SaveData.cs" />
     <Compile Include="Objects\Variance.cs" />
     <Compile Include="Objects\WindowInfo.cs" />
     <Compile Include="Windows\AddEditEventDialog.cs">

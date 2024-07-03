@@ -49,7 +49,7 @@
             this.labelWindowInfo = new System.Windows.Forms.Label();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.checkBoxRestoreWindow = new System.Windows.Forms.CheckBox();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -249,13 +249,13 @@
             // 
             // groupBoxWindow
             // 
-            this.groupBoxWindow.Controls.Add(this.label1);
+            this.groupBoxWindow.Controls.Add(this.checkBoxRestoreWindow);
             this.groupBoxWindow.Controls.Add(this.labelWindowInfo);
             this.groupBoxWindow.Controls.Add(this.buttonRefresh);
             this.groupBoxWindow.Controls.Add(this.comboBoxWindowList);
             this.groupBoxWindow.Location = new System.Drawing.Point(6, 42);
             this.groupBoxWindow.Name = "groupBoxWindow";
-            this.groupBoxWindow.Size = new System.Drawing.Size(326, 161);
+            this.groupBoxWindow.Size = new System.Drawing.Size(204, 109);
             this.groupBoxWindow.TabIndex = 12;
             this.groupBoxWindow.TabStop = false;
             this.groupBoxWindow.Text = "Target Window";
@@ -289,16 +289,15 @@
             this.comboBoxWindowList.TabIndex = 0;
             this.comboBoxWindowList.SelectedValueChanged += new System.EventHandler(this.comboBoxWindowList_SelectedValueChanged);
             // 
-            // label1
+            // checkBoxRestoreWindow
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(27, 80);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(219, 39);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Todo: show saved window position & size\r\nand add \"adjust\" button to snap the sele" +
-    "cted\r\nwindow to the saved position & size";
+            this.checkBoxRestoreWindow.AutoSize = true;
+            this.checkBoxRestoreWindow.Location = new System.Drawing.Point(9, 70);
+            this.checkBoxRestoreWindow.Name = "checkBoxRestoreWindow";
+            this.checkBoxRestoreWindow.Size = new System.Drawing.Size(189, 30);
+            this.checkBoxRestoreWindow.TabIndex = 14;
+            this.checkBoxRestoreWindow.Text = "Check target window position & size\r\non action list load";
+            this.checkBoxRestoreWindow.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -350,7 +349,7 @@
         private System.Windows.Forms.ComboBox comboBoxWindowList;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Label labelWindowInfo;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBoxRestoreWindow;
     }
 }
 
