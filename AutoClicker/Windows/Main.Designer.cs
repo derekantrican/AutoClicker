@@ -50,6 +50,8 @@
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
             this.checkBoxRestoreWindow = new System.Windows.Forms.CheckBox();
+            this.buttonUp = new System.Windows.Forms.Button();
+            this.buttonDown = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -222,6 +224,8 @@
             // 
             // tabPageActions
             // 
+            this.tabPageActions.Controls.Add(this.buttonDown);
+            this.tabPageActions.Controls.Add(this.buttonUp);
             this.tabPageActions.Controls.Add(this.listBoxQueue);
             this.tabPageActions.Controls.Add(this.buttonRemove);
             this.tabPageActions.Controls.Add(this.buttonLoad);
@@ -299,6 +303,26 @@
             this.checkBoxRestoreWindow.Text = "Check target window position & size\r\non action list load";
             this.checkBoxRestoreWindow.UseVisualStyleBackColor = true;
             // 
+            // buttonUp
+            // 
+            this.buttonUp.Location = new System.Drawing.Point(158, 7);
+            this.buttonUp.Name = "buttonUp";
+            this.buttonUp.Size = new System.Drawing.Size(26, 23);
+            this.buttonUp.TabIndex = 11;
+            this.buttonUp.Text = "⬆";
+            this.buttonUp.UseVisualStyleBackColor = true;
+            this.buttonUp.Click += new System.EventHandler(this.buttonUp_Click);
+            // 
+            // buttonDown
+            // 
+            this.buttonDown.Location = new System.Drawing.Point(190, 7);
+            this.buttonDown.Name = "buttonDown";
+            this.buttonDown.Size = new System.Drawing.Size(26, 23);
+            this.buttonDown.TabIndex = 12;
+            this.buttonDown.Text = "⬇️";
+            this.buttonDown.UseVisualStyleBackColor = true;
+            this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,6 +374,8 @@
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Label labelWindowInfo;
         private System.Windows.Forms.CheckBox checkBoxRestoreWindow;
+        private System.Windows.Forms.Button buttonDown;
+        private System.Windows.Forms.Button buttonUp;
     }
 }
 

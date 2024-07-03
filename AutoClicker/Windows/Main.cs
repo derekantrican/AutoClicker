@@ -15,7 +15,6 @@ namespace AutoClicker
 {
     public partial class Main : Form
     {
-        //Todo: allow re-arrange queue list (at a minimum: up & down arrows)
         //Todo: maybe use native GetCursorPos and SetCursorPos instead of Cursor.Postion (maybe this is more reliable?)
         //Todo: maybe allow keyboard input
         //Todo: maybe add a hook for listening for keyboard events and stop running actions after Esc (or maybe 3x Esc) is pressed
@@ -29,18 +28,6 @@ namespace AutoClicker
         private void Main_Load(object sender, EventArgs e)
         {
             MouseLocationHelper.Init();
-        }
-
-        private void buttonAdd_Click(object sender, EventArgs e)
-        {
-            AddEditEventDialog addEditEventDialog = new AddEditEventDialog(null);
-            addEditEventDialog.ResultEventAction += result => listBoxQueue.Items.Add(result);
-            addEditEventDialog.ShowDialog();
-        }
-
-        private void buttonRemove_Click(object sender, EventArgs e)
-        {
-            listBoxQueue.Items.RemoveAt(listBoxQueue.SelectedIndex);
         }
 
         bool isStopped = false; //Todo: convert to CancellationToken
@@ -85,6 +72,58 @@ namespace AutoClicker
         private void buttonStop_Click(object sender, EventArgs e)
         {
             isStopped = true; //Todo: this doesn't work because the Thread.Sleep blocks the UI thread
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            AddEditEventDialog addEditEventDialog = new AddEditEventDialog(null);
+            addEditEventDialog.ResultEventAction += result => listBoxQueue.Items.Add(result);
+            addEditEventDialog.ShowDialog();
+        }
+
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            if (listBoxQueue.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an item in the list to remove");
+                return;
+            }
+
+            listBoxQueue.Items.RemoveAt(listBoxQueue.SelectedIndex);
+        }
+
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+            if (listBoxQueue.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an item in the list to move");
+                return;
+            }
+
+            int targetIndex = listBoxQueue.SelectedIndex == 0 ? 0 : listBoxQueue.SelectedIndex - 1;
+            object targetItem = listBoxQueue.SelectedItem;
+
+            listBoxQueue.Items.RemoveAt(listBoxQueue.SelectedIndex);
+            listBoxQueue.Items.Insert(targetIndex, targetItem);
+
+            listBoxQueue.SelectedIndex = targetIndex; //Re-select the item
+        }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+            if (listBoxQueue.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an item in the list to move");
+                return;
+            }
+
+            int targetIndex = listBoxQueue.SelectedIndex == listBoxQueue.Items.Count - 1 ? listBoxQueue.Items.Count - 1 : listBoxQueue.SelectedIndex + 1;
+            object targetItem = listBoxQueue.SelectedItem;
+
+            listBoxQueue.Items.RemoveAt(listBoxQueue.SelectedIndex);
+            listBoxQueue.Items.Insert(targetIndex, targetItem);
+
+            listBoxQueue.SelectedIndex = targetIndex; //Re-select the item
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
