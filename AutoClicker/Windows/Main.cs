@@ -49,6 +49,7 @@ namespace AutoClicker
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
+            buttonPlay.Enabled = false;
             isStopped = false;
             toolStripProgressBar.Maximum = (int)numericUpDownRepeat.Value;
             toolStripProgressBar.Value = 0;
@@ -80,6 +81,7 @@ namespace AutoClicker
 
             listBoxQueue.SelectedItem = null;
             toolStripStatusLabel.Text = $"Finished! {numericUpDownRepeat.Value} / {numericUpDownRepeat.Value} (elapsed: {stopwatch.Elapsed})";
+            buttonPlay.Enabled = true;
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
