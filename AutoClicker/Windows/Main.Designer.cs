@@ -44,14 +44,14 @@
             this.checkBoxDisplayMouseLoc = new System.Windows.Forms.CheckBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageActions = new System.Windows.Forms.TabPage();
+            this.buttonDown = new System.Windows.Forms.Button();
+            this.buttonUp = new System.Windows.Forms.Button();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.groupBoxWindow = new System.Windows.Forms.GroupBox();
+            this.checkBoxRestoreWindow = new System.Windows.Forms.CheckBox();
             this.labelWindowInfo = new System.Windows.Forms.Label();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
-            this.checkBoxRestoreWindow = new System.Windows.Forms.CheckBox();
-            this.buttonUp = new System.Windows.Forms.Button();
-            this.buttonDown = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -239,6 +239,26 @@
             this.tabPageActions.Text = "Actions";
             this.tabPageActions.UseVisualStyleBackColor = true;
             // 
+            // buttonDown
+            // 
+            this.buttonDown.Location = new System.Drawing.Point(190, 7);
+            this.buttonDown.Name = "buttonDown";
+            this.buttonDown.Size = new System.Drawing.Size(26, 23);
+            this.buttonDown.TabIndex = 12;
+            this.buttonDown.Text = "⬇️";
+            this.buttonDown.UseVisualStyleBackColor = true;
+            this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
+            // 
+            // buttonUp
+            // 
+            this.buttonUp.Location = new System.Drawing.Point(158, 7);
+            this.buttonUp.Name = "buttonUp";
+            this.buttonUp.Size = new System.Drawing.Size(26, 23);
+            this.buttonUp.TabIndex = 11;
+            this.buttonUp.Text = "⬆";
+            this.buttonUp.UseVisualStyleBackColor = true;
+            this.buttonUp.Click += new System.EventHandler(this.buttonUp_Click);
+            // 
             // tabPageSettings
             // 
             this.tabPageSettings.Controls.Add(this.groupBoxWindow);
@@ -259,10 +279,20 @@
             this.groupBoxWindow.Controls.Add(this.comboBoxWindowList);
             this.groupBoxWindow.Location = new System.Drawing.Point(6, 42);
             this.groupBoxWindow.Name = "groupBoxWindow";
-            this.groupBoxWindow.Size = new System.Drawing.Size(204, 109);
+            this.groupBoxWindow.Size = new System.Drawing.Size(249, 109);
             this.groupBoxWindow.TabIndex = 12;
             this.groupBoxWindow.TabStop = false;
             this.groupBoxWindow.Text = "Target Window";
+            // 
+            // checkBoxRestoreWindow
+            // 
+            this.checkBoxRestoreWindow.AutoSize = true;
+            this.checkBoxRestoreWindow.Location = new System.Drawing.Point(9, 70);
+            this.checkBoxRestoreWindow.Name = "checkBoxRestoreWindow";
+            this.checkBoxRestoreWindow.Size = new System.Drawing.Size(236, 30);
+            this.checkBoxRestoreWindow.TabIndex = 14;
+            this.checkBoxRestoreWindow.Text = "Check target window position & size on action\r\nlist load";
+            this.checkBoxRestoreWindow.UseVisualStyleBackColor = true;
             // 
             // labelWindowInfo
             // 
@@ -292,36 +322,6 @@
             this.comboBoxWindowList.Size = new System.Drawing.Size(121, 21);
             this.comboBoxWindowList.TabIndex = 0;
             this.comboBoxWindowList.SelectedValueChanged += new System.EventHandler(this.comboBoxWindowList_SelectedValueChanged);
-            // 
-            // checkBoxRestoreWindow
-            // 
-            this.checkBoxRestoreWindow.AutoSize = true;
-            this.checkBoxRestoreWindow.Location = new System.Drawing.Point(9, 70);
-            this.checkBoxRestoreWindow.Name = "checkBoxRestoreWindow";
-            this.checkBoxRestoreWindow.Size = new System.Drawing.Size(189, 30);
-            this.checkBoxRestoreWindow.TabIndex = 14;
-            this.checkBoxRestoreWindow.Text = "Check target window position & size\r\non action list load";
-            this.checkBoxRestoreWindow.UseVisualStyleBackColor = true;
-            // 
-            // buttonUp
-            // 
-            this.buttonUp.Location = new System.Drawing.Point(158, 7);
-            this.buttonUp.Name = "buttonUp";
-            this.buttonUp.Size = new System.Drawing.Size(26, 23);
-            this.buttonUp.TabIndex = 11;
-            this.buttonUp.Text = "⬆";
-            this.buttonUp.UseVisualStyleBackColor = true;
-            this.buttonUp.Click += new System.EventHandler(this.buttonUp_Click);
-            // 
-            // buttonDown
-            // 
-            this.buttonDown.Location = new System.Drawing.Point(190, 7);
-            this.buttonDown.Name = "buttonDown";
-            this.buttonDown.Size = new System.Drawing.Size(26, 23);
-            this.buttonDown.TabIndex = 12;
-            this.buttonDown.Text = "⬇️";
-            this.buttonDown.UseVisualStyleBackColor = true;
-            this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
             // 
             // Main
             // 

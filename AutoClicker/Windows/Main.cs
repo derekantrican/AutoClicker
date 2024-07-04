@@ -20,6 +20,7 @@ namespace AutoClicker
         //Todo: maybe allow keyboard input
         //Todo: maybe add a hook for listening for keyboard events and stop running actions after Esc (or maybe 3x Esc) is pressed
         //    (because moving the cursor to the "stop" button could be hard while the program is running)
+        //Todo: add a "Image Validation" or similar action that will check a certain section on the screen against a reference image and stop the program if there isn't a match
 
         public Main()
         {
