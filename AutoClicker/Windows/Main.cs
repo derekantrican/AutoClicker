@@ -236,20 +236,25 @@ namespace AutoClicker
                         {
                             MessageBox.Show($"Can't find a matching window for saved target window '{saveData.TargetWindow.Title}'", "Target window not found (by title)");
                         }
-                        else if (matchingTargetWindow.GetBounds().ToString() != saveData.TargetWindow.Bounds.ToString()) //ToString is not "technically proper" but is the easiest
+                        else
                         {
-                            DialogResult result = MessageBox.Show($"The postion or size for '{saveData.TargetWindow.Title}' is not the same as last time. Adjust the target window to match saved position & size?\n" +
-                                $"\nSaved: {saveData.TargetWindow.Bounds}" +
-                                $"\nCurrent: {matchingTargetWindow.GetBounds()}",
-                                "Target window size/position not the same",
-                                MessageBoxButtons.YesNo);
+                            comboBoxWindowList.SelectedItem = matchingTargetWindow;
 
-                            if (result == DialogResult.Yes)
+                            if (matchingTargetWindow.GetBounds().ToString() != saveData.TargetWindow.Bounds.ToString()) //ToString is not "technically proper" but is the easiest
                             {
-                                Rect savedBounds = saveData.TargetWindow.Bounds;
-                                //Todo: maybe check if (Left, Top) will put the Window off the screen & warn
+                                DialogResult result = MessageBox.Show($"The postion or size for '{saveData.TargetWindow.Title}' is not the same as last time. Adjust the target window to match saved position & size?\n" +
+                                    $"\nSaved: {saveData.TargetWindow.Bounds}" +
+                                    $"\nCurrent: {matchingTargetWindow.GetBounds()}",
+                                    "Target window size/position not the same",
+                                    MessageBoxButtons.YesNo);
 
-                                matchingTargetWindow.AdjustWindowBounds(savedBounds);
+                                if (result == DialogResult.Yes)
+                                {
+                                    Rect savedBounds = saveData.TargetWindow.Bounds;
+                                    //Todo: maybe check if (Left, Top) will put the Window off the screen & warn
+
+                                    matchingTargetWindow.AdjustWindowBounds(savedBounds);
+                                }
                             }
                         }
                     }
