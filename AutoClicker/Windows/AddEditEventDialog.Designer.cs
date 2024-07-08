@@ -102,7 +102,6 @@
             this.locationPickerStartLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
             this.locationPickerStartLocation.Location = new System.Drawing.Point(5, 7);
             this.locationPickerStartLocation.Name = "locationPickerStartLocation";
-            this.locationPickerStartLocation.Point = new System.Drawing.Point(0, 0);
             this.locationPickerStartLocation.Size = new System.Drawing.Size(102, 236);
             this.locationPickerStartLocation.TabIndex = 5;
             this.locationPickerStartLocation.Title = "Start location";
@@ -116,7 +115,6 @@
             this.locationPickerEndLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
             this.locationPickerEndLocation.Location = new System.Drawing.Point(113, 7);
             this.locationPickerEndLocation.Name = "locationPickerEndLocation";
-            this.locationPickerEndLocation.Point = new System.Drawing.Point(0, 0);
             this.locationPickerEndLocation.Size = new System.Drawing.Size(102, 236);
             this.locationPickerEndLocation.TabIndex = 4;
             this.locationPickerEndLocation.Title = "End location";
@@ -210,7 +208,6 @@
             this.locationPickerClickEvent.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
             this.locationPickerClickEvent.Location = new System.Drawing.Point(113, 7);
             this.locationPickerClickEvent.Name = "locationPickerClickEvent";
-            this.locationPickerClickEvent.Point = new System.Drawing.Point(0, 0);
             this.locationPickerClickEvent.Size = new System.Drawing.Size(102, 238);
             this.locationPickerClickEvent.TabIndex = 4;
             this.locationPickerClickEvent.Title = "Location";

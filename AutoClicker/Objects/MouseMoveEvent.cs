@@ -1,34 +1,26 @@
-﻿using AutoClicker.Helpers;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using AutoClicker.Helpers;
 
 namespace AutoClicker.Objects
 {
     public class MouseMoveEvent : IBaseEvent
     {
-        //Todo: convert to ImpreciseLocation (will break serialized objects)
-
-        public CoordinateSystem StartCoordinateSystem { get; set; }
-        public CoordinateSystem EndCoordinateSystem { get; set; }
-
-        public Point StartLocation { get; set; }
-        public Point EndLocation { get; set; }
-
-        public Variance StartLocationVar { get; set; }
-        public Variance EndLocationVar { get; set; }
+        public ImpreciseLocation StartLocation { get; set; }
+        public ImpreciseLocation EndLocation { get; set; }
 
         public void PerformAction()
         {
             Point adjustedStartLocation;
-            if (StartCoordinateSystem == CoordinateSystem.Absolute)
+            if (StartLocation.CoordinateSystem == CoordinateSystem.Absolute)
             {
-                adjustedStartLocation = new Point(StartLocation.X + Rand.Int(-StartLocationVar.X, StartLocationVar.X), StartLocation.Y + Rand.Int(-StartLocationVar.Y, StartLocationVar.Y));
+                adjustedStartLocation = new Point(StartLocation.X + Rand.Int(-StartLocation.Variance.X, StartLocation.Variance.X), StartLocation.Y + Rand.Int(-StartLocation.Variance.Y, StartLocation.Variance.Y));
             }
             else
             {
-                adjustedStartLocation = new Point(Cursor.Position.X + StartLocation.X + Rand.Int(-StartLocationVar.X, StartLocationVar.X), Cursor.Position.Y + StartLocation.Y + Rand.Int(-StartLocationVar.Y, StartLocationVar.Y));
+                adjustedStartLocation = new Point(Cursor.Position.X + StartLocation.X + Rand.Int(-StartLocation.Variance.X, StartLocation.Variance.X), Cursor.Position.Y + StartLocation.Y + Rand.Int(-StartLocation.Variance.Y, StartLocation.Variance.Y));
             }
 
             if (Cursor.Position != adjustedStartLocation)
@@ -36,19 +28,19 @@ namespace AutoClicker.Objects
                 MoveMouse(Cursor.Position.X, Cursor.Position.Y, adjustedStartLocation.X, adjustedStartLocation.Y);
             }
 
-            if (EndCoordinateSystem == CoordinateSystem.Absolute)
+            if (EndLocation.CoordinateSystem == CoordinateSystem.Absolute)
             {
-                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, EndLocation.X + Rand.Int(-EndLocationVar.X, EndLocationVar.X), EndLocation.Y + Rand.Int(-EndLocationVar.Y, EndLocationVar.Y));
+                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X), EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y));
             }
             else
             {
-                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, Cursor.Position.X + EndLocation.X + Rand.Int(-EndLocationVar.X, EndLocationVar.X), Cursor.Position.Y + EndLocation.Y + Rand.Int(-EndLocationVar.Y, EndLocationVar.Y));
+                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, Cursor.Position.X + EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X), Cursor.Position.Y + EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y));
             }
         }
 
         public override string ToString()
         {
-            return $"[MouseMove] Start: ({StartLocation.X}±{StartLocationVar.X}, {StartLocation.Y}±{StartLocationVar.Y}); End: ({EndLocation.X}±{EndLocationVar.X}, {EndLocation.Y}±{EndLocationVar.Y})";
+            return $"[MouseMove] Start: ({StartLocation.X}±{StartLocation.Variance.X}, {StartLocation.Y}±{StartLocation.Variance.Y}); End: ({EndLocation.X}±{EndLocation.Variance.X}, {EndLocation.Y}±{EndLocation.Variance.Y})";
         }
 
         public static void MoveMouse(int x, int y, int rx, int ry)

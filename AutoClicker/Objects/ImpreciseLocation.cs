@@ -12,7 +12,9 @@ namespace AutoClicker.Objects
     {
         public CoordinateSystem CoordinateSystem { get; set; }
 
-        public Point Location { get; set; }
+        public int X { get; set; }
+
+        public int Y { get; set; }
 
         public Variance Variance { get; set; }
     }

@@ -16,24 +16,18 @@ namespace AutoClicker.Objects
     {
         public MouseButton MouseButton { get; set; }
 
-        //Todo: convert to ImpreciseLocation (will break serialized objects)
-
-        public CoordinateSystem CoordinateSystem { get; set; }
-
-        public Point ClickLocation { get; set; }
-
-        public Variance ClickLocationVar { get; set; }
+        public ImpreciseLocation Location { get; set; }
 
         public void PerformAction()
         {
             Point adjustedClickLocation;
-            if (CoordinateSystem == CoordinateSystem.Absolute)
+            if (Location.CoordinateSystem == CoordinateSystem.Absolute)
             {
-                adjustedClickLocation = new Point(ClickLocation.X + Rand.Int(-ClickLocationVar.X, ClickLocationVar.X), ClickLocation.Y + Rand.Int(-ClickLocationVar.Y, ClickLocationVar.Y));
+                adjustedClickLocation = new Point(Location.X + Rand.Int(-Location.Variance.X, Location.Variance.X), Location.Y + Rand.Int(-Location.Variance.Y, Location.Variance.Y));
             }
             else
             {
-                adjustedClickLocation = new Point(Cursor.Position.X + ClickLocation.X + Rand.Int(-ClickLocationVar.X, ClickLocationVar.X), Cursor.Position.Y + ClickLocation.Y + Rand.Int(-ClickLocationVar.Y, ClickLocationVar.Y));
+                adjustedClickLocation = new Point(Cursor.Position.X + Location.X + Rand.Int(-Location.Variance.X, Location.Variance.X), Cursor.Position.Y + Location.Y + Rand.Int(-Location.Variance.Y, Location.Variance.Y));
             }
 
             if (Cursor.Position != adjustedClickLocation)
@@ -44,20 +38,20 @@ namespace AutoClicker.Objects
             switch(MouseButton)
             {
                 case MouseButton.Left:
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)ClickLocation.X, (uint)ClickLocation.Y, 0, 0);
+                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)Location.X, (uint)Location.Y, 0, 0);
                     break;
                 case MouseButton.Middle:
-                    mouse_event(MOUSEEVENTF_MIDDLEDOWN | MOUSEEVENTF_MIDDLEUP, (uint)ClickLocation.X, (uint)ClickLocation.Y, 0, 0);
+                    mouse_event(MOUSEEVENTF_MIDDLEDOWN | MOUSEEVENTF_MIDDLEUP, (uint)Location.X, (uint)Location.Y, 0, 0);
                     break;
                 case MouseButton.Right:
-                    mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, (uint)ClickLocation.X, (uint)ClickLocation.Y, 0, 0);
+                    mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, (uint)Location.X, (uint)Location.Y, 0, 0);
                     break;
             }
         }
 
         public override string ToString()
         {
-            return $"[Click] MouseButton: {MouseButton}; Location: ({ClickLocation.X}±{ClickLocationVar.X}, {ClickLocation.Y}±{ClickLocationVar.Y})";
+            return $"[Click] MouseButton: {MouseButton}; Location: ({Location.X}±{Location.Variance.X}, {Location.Y}±{Location.Variance.Y})";
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]

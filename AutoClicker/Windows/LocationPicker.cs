@@ -15,19 +15,32 @@ namespace AutoClicker.Windows
             comboBoxCoordinateSystem.SelectedIndex = 0;
         }
 
-        //Todo: convert to ImpreciseLocation (will break serialized objects)
-        public void SetValues(CoordinateSystem coordinateSystem, Point point, Variance variance)
-        {
-            CoordinateSystem = coordinateSystem;
-            Point = point;
-            XVariance = variance.X;
-            YVariance = variance.Y;
-        }
-
         public string Title
         {
             get { return groupBox.Text; }
             set { groupBox.Text = value; }
+        }
+
+        public ImpreciseLocation ChosenLocation
+        {
+            get
+            {
+                return new ImpreciseLocation
+                {
+                    CoordinateSystem = CoordinateSystem,
+                    X = X,
+                    Y = Y,
+                    Variance = new Variance(XVariance, YVariance),
+                };
+            }
+            set
+            {
+                CoordinateSystem = value.CoordinateSystem;
+                X = value.X;
+                Y = value.Y;
+                XVariance *= value.Variance.X;
+                YVariance *= value.Variance.Y;
+            }
         }
 
         public CoordinateSystem CoordinateSystem
@@ -46,16 +59,6 @@ namespace AutoClicker.Windows
         {
             get { return Convert.ToInt32(textBoxY.Text); }
             set { textBoxY.Text = value.ToString(); }
-        }
-
-        public Point Point
-        {
-            get { return new Point(X, Y); }
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-            }
         }
 
         public int XVariance
