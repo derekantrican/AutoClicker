@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using AutoClicker.Helpers;
 using AutoClicker.Objects;
 using AutoClicker.Windows;
+using Gma.System.MouseKeyHook;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -29,9 +30,7 @@ namespace AutoClicker
         {
             labelEscTip.Visible = false;
 
-            MouseLocationHelper.Init();
-            KeyDownHelper.Init();
-            KeyDownHelper.KeyDownCallback += CheckForStopRunning;
+            Hook.GlobalEvents().KeyDown += CheckForStopRunning;
         }
 
         bool isStopped = false; //Todo: convert to CancellationToken
@@ -272,24 +271,24 @@ namespace AutoClicker
         {
             if (checkBoxDisplayMouseLoc.Checked)
             {
-                MouseLocationHelper.LocationChangeCallback += MouseLocationUpdate;
+                Hook.GlobalEvents().MouseClick += MouseLocationUpdate;
             }
             else
             {
-                MouseLocationHelper.LocationChangeCallback -= MouseLocationUpdate;
+                Hook.GlobalEvents().MouseClick -= MouseLocationUpdate;
             }
         }
 
-        private void MouseLocationUpdate(Point p)
+        private void MouseLocationUpdate(object sender, MouseEventArgs e)
         {
-            toolStripStatusLabelMouseLoc.Text = $"Mouse Location: {p.X}, {p.Y}";
+            toolStripStatusLabelMouseLoc.Text = $"Mouse Location: {e.X}, {e.Y}";
             statusStrip.Update();
         }
 
         private Stack<DateTime> timesEscPressed = new Stack<DateTime>();
-        private void CheckForStopRunning(KeyEventArgs keyEventArgs)
+        private void CheckForStopRunning(object sender, KeyEventArgs e)
         {
-            if (!isStopped && keyEventArgs.KeyCode == Keys.Escape)
+            if (!isStopped && e.KeyCode == Keys.Escape)
             {
                 DateTime now = DateTime.Now;
                 timesEscPressed.Push(now);

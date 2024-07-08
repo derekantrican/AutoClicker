@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
 using AutoClicker.Objects;
+using Gma.System.MouseKeyHook;
 
 namespace AutoClicker.Windows
 {
@@ -72,15 +73,15 @@ namespace AutoClicker.Windows
 
         private void buttonPick_Click(object sender, EventArgs e)
         {
-            MouseLocationHelper.LocationChangeCallback += SaveChosenPoint;
+            Hook.GlobalEvents().MouseClick += SaveChosenPoint;
         }
 
-        private void SaveChosenPoint(Point point)
+        private void SaveChosenPoint(object sender, MouseEventArgs e)
         {
-            X = point.X;
-            Y = point.Y;
+            X = e.X;
+            Y = e.Y;
 
-            MouseLocationHelper.LocationChangeCallback -= SaveChosenPoint;
+            Hook.GlobalEvents().MouseClick -= SaveChosenPoint;
         }
     }
 }
