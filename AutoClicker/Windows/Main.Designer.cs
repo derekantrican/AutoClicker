@@ -53,6 +53,7 @@
             this.labelWindowInfo = new System.Windows.Forms.Label();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.comboBoxWindowList = new System.Windows.Forms.ComboBox();
+            this.labelEscTip = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -101,7 +102,7 @@
             this.toolStripProgressBar,
             this.toolStripStatusLabel,
             this.toolStripStatusLabelMouseLoc});
-            this.statusStrip.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip.Location = new System.Drawing.Point(0, 439);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(514, 22);
             this.statusStrip.TabIndex = 4;
@@ -220,7 +221,7 @@
             this.tabControl.Location = new System.Drawing.Point(2, 60);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(512, 368);
+            this.tabControl.Size = new System.Drawing.Size(512, 379);
             this.tabControl.TabIndex = 12;
             // 
             // tabPageActions
@@ -267,7 +268,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(504, 342);
+            this.tabPageSettings.Size = new System.Drawing.Size(504, 353);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -324,11 +325,22 @@
             this.comboBoxWindowList.TabIndex = 0;
             this.comboBoxWindowList.SelectedValueChanged += new System.EventHandler(this.comboBoxWindowList_SelectedValueChanged);
             // 
+            // labelEscTip
+            // 
+            this.labelEscTip.AutoSize = true;
+            this.labelEscTip.ForeColor = System.Drawing.Color.Red;
+            this.labelEscTip.Location = new System.Drawing.Point(100, 9);
+            this.labelEscTip.Name = "labelEscTip";
+            this.labelEscTip.Size = new System.Drawing.Size(162, 13);
+            this.labelEscTip.TabIndex = 13;
+            this.labelEscTip.Text = "Press Esc 3x within 5 sec to stop";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 450);
+            this.ClientSize = new System.Drawing.Size(514, 461);
+            this.Controls.Add(this.labelEscTip);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.numericUpDownRepeat);
             this.Controls.Add(this.labelRepeat);
@@ -336,6 +348,7 @@
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonPlay);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "Main";
             this.Text = "AutoClicker";
             this.Load += new System.EventHandler(this.Main_Load);
@@ -378,6 +391,7 @@
         private System.Windows.Forms.CheckBox checkBoxRestoreWindow;
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonUp;
+        private System.Windows.Forms.Label labelEscTip;
     }
 }
 

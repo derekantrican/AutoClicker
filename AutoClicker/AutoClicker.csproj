@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\KeyDownHelper.cs" />
     <Compile Include="Helpers\MouseLocationHelper.cs" />
     <Compile Include="Helpers\Rand.cs" />
     <Compile Include="Objects\ImpreciseLocation.cs" />

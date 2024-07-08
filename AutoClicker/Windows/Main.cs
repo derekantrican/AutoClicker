@@ -18,8 +18,6 @@ namespace AutoClicker
     {
         //Todo: maybe use native GetCursorPos and SetCursorPos instead of Cursor.Postion (maybe this is more reliable?)
         //Todo: maybe allow keyboard input
-        //Todo: maybe add a hook for listening for keyboard events and stop running actions after Esc (or maybe 3x Esc) is pressed
-        //    (because moving the cursor to the "stop" button could be hard while the program is running)
         //Todo: add a "Image Validation" or similar action that will check a certain section on the screen against a reference image and stop the program if there isn't a match
 
         public Main()
@@ -29,7 +27,11 @@ namespace AutoClicker
 
         private void Main_Load(object sender, EventArgs e)
         {
+            labelEscTip.Visible = false;
+
             MouseLocationHelper.Init();
+            KeyDownHelper.Init();
+            KeyDownHelper.KeyDownCallback += CheckForStopRunning;
         }
 
         bool isStopped = false; //Todo: convert to CancellationToken
@@ -38,6 +40,8 @@ namespace AutoClicker
         {
             buttonPlay.Enabled = false;
             isStopped = false;
+            labelEscTip.Visible = true;
+            timesEscPressed.Clear();
             toolStripProgressBar.Maximum = (int)numericUpDownRepeat.Value;
             toolStripProgressBar.Value = 0;
 
@@ -66,6 +70,7 @@ namespace AutoClicker
                             });
 
                             UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = null);
+                            UpdateControlOnUI(labelEscTip, () => labelEscTip.Visible = false);
                             UpdateControlOnUI(buttonPlay, () => buttonPlay.Enabled = true);
                             return;
                         }
@@ -88,6 +93,7 @@ namespace AutoClicker
                     statusStrip.Update();
                 });
                 UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = null);
+                UpdateControlOnUI(labelEscTip, () => labelEscTip.Visible = false);
                 UpdateControlOnUI(buttonPlay, () => buttonPlay.Enabled = true);
             });
         }
@@ -278,6 +284,22 @@ namespace AutoClicker
         {
             toolStripStatusLabelMouseLoc.Text = $"Mouse Location: {p.X}, {p.Y}";
             statusStrip.Update();
+        }
+
+        private Stack<DateTime> timesEscPressed = new Stack<DateTime>();
+        private void CheckForStopRunning(KeyEventArgs keyEventArgs)
+        {
+            if (!isStopped && keyEventArgs.KeyCode == Keys.Escape)
+            {
+                DateTime now = DateTime.Now;
+                timesEscPressed.Push(now);
+
+                if (timesEscPressed.Count >= 3 && (now - timesEscPressed.ElementAt(2)).TotalSeconds < 5)
+                {
+                    isStopped = true;
+                    timesEscPressed.Clear();
+                }
+            }
         }
 
         private void listBoxQueue_MouseDoubleClick(object sender, MouseEventArgs e)
