@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using AutoClicker.Helpers;
 using AutoClicker.Objects;
 using Gma.System.MouseKeyHook;
 

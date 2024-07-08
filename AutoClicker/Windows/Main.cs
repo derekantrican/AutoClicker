@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AutoClicker.Helpers;
 using AutoClicker.Objects;
 using AutoClicker.Windows;
 using Gma.System.MouseKeyHook;
