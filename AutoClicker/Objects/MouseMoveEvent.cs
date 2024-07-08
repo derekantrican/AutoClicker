@@ -53,6 +53,7 @@ namespace AutoClicker.Objects
                 15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed);
         }
 
+        //https://stackoverflow.com/a/13778103/2246411
         static void WindMouse(double xs, double ys, double xe, double ye,
             double gravity, double wind, double minWait, double maxWait,
             double maxStep, double targetArea)
