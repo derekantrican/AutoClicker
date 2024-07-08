@@ -27,6 +27,8 @@ namespace AutoClicker.Windows
 
             if (baseEvent == null)
             {
+                this.Text = "Add Event";
+
                 comboBoxEventType.SelectedIndex = 0;
                 comboBoxMouseButton.SelectedIndex = 0;
 
@@ -35,6 +37,8 @@ namespace AutoClicker.Windows
             }
             else
             {
+                this.Text = "Edit Event";
+
                 if (baseEvent is ClickEvent clickEvent)
                 {
                     comboBoxEventType.SelectedIndex = 0;

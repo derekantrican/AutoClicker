@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.buttonPlay = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
             this.listBoxQueue = new System.Windows.Forms.ListBox();
@@ -334,6 +335,7 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonPlay);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "AutoClicker";
             this.Load += new System.EventHandler(this.Main_Load);

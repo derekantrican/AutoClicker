@@ -28,28 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddEditEventDialog));
             this.labelDuration = new System.Windows.Forms.Label();
             this.numericUpDownDurationMs = new System.Windows.Forms.NumericUpDown();
             this.labelMs = new System.Windows.Forms.Label();
             this.panelMouseMoveEvent = new System.Windows.Forms.Panel();
+            this.locationPickerStartLocation = new AutoClicker.Windows.LocationPicker();
+            this.locationPickerEndLocation = new AutoClicker.Windows.LocationPicker();
             this.panelWaitEvent = new System.Windows.Forms.Panel();
+            this.labelVar = new System.Windows.Forms.Label();
+            this.numericUpDownVarMs = new System.Windows.Forms.NumericUpDown();
+            this.labelVarMs = new System.Windows.Forms.Label();
             this.comboBoxMouseButton = new System.Windows.Forms.ComboBox();
             this.labelMouseButton = new System.Windows.Forms.Label();
             this.panelClickEvent = new System.Windows.Forms.Panel();
+            this.locationPickerClickEvent = new AutoClicker.Windows.LocationPicker();
             this.labelEventType = new System.Windows.Forms.Label();
             this.comboBoxEventType = new System.Windows.Forms.ComboBox();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.numericUpDownVarMs = new System.Windows.Forms.NumericUpDown();
-            this.labelVarMs = new System.Windows.Forms.Label();
-            this.labelVar = new System.Windows.Forms.Label();
-            this.locationPickerStartLocation = new AutoClicker.Windows.LocationPicker();
-            this.locationPickerEndLocation = new AutoClicker.Windows.LocationPicker();
-            this.locationPickerClickEvent = new AutoClicker.Windows.LocationPicker();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDurationMs)).BeginInit();
             this.panelMouseMoveEvent.SuspendLayout();
             this.panelWaitEvent.SuspendLayout();
-            this.panelClickEvent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVarMs)).BeginInit();
+            this.panelClickEvent.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelDuration
@@ -96,6 +97,34 @@
             this.panelMouseMoveEvent.Size = new System.Drawing.Size(220, 246);
             this.panelMouseMoveEvent.TabIndex = 5;
             // 
+            // locationPickerStartLocation
+            // 
+            this.locationPickerStartLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
+            this.locationPickerStartLocation.Location = new System.Drawing.Point(5, 7);
+            this.locationPickerStartLocation.Name = "locationPickerStartLocation";
+            this.locationPickerStartLocation.Point = new System.Drawing.Point(0, 0);
+            this.locationPickerStartLocation.Size = new System.Drawing.Size(102, 236);
+            this.locationPickerStartLocation.TabIndex = 5;
+            this.locationPickerStartLocation.Title = "Start location";
+            this.locationPickerStartLocation.X = 0;
+            this.locationPickerStartLocation.XVariance = 0;
+            this.locationPickerStartLocation.Y = 0;
+            this.locationPickerStartLocation.YVariance = 0;
+            // 
+            // locationPickerEndLocation
+            // 
+            this.locationPickerEndLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
+            this.locationPickerEndLocation.Location = new System.Drawing.Point(113, 7);
+            this.locationPickerEndLocation.Name = "locationPickerEndLocation";
+            this.locationPickerEndLocation.Point = new System.Drawing.Point(0, 0);
+            this.locationPickerEndLocation.Size = new System.Drawing.Size(102, 236);
+            this.locationPickerEndLocation.TabIndex = 4;
+            this.locationPickerEndLocation.Title = "End location";
+            this.locationPickerEndLocation.X = 0;
+            this.locationPickerEndLocation.XVariance = 0;
+            this.locationPickerEndLocation.Y = 0;
+            this.locationPickerEndLocation.YVariance = 0;
+            // 
             // panelWaitEvent
             // 
             this.panelWaitEvent.Controls.Add(this.labelVar);
@@ -108,6 +137,41 @@
             this.panelWaitEvent.Name = "panelWaitEvent";
             this.panelWaitEvent.Size = new System.Drawing.Size(220, 247);
             this.panelWaitEvent.TabIndex = 6;
+            // 
+            // labelVar
+            // 
+            this.labelVar.AutoSize = true;
+            this.labelVar.Location = new System.Drawing.Point(3, 54);
+            this.labelVar.Name = "labelVar";
+            this.labelVar.Size = new System.Drawing.Size(52, 13);
+            this.labelVar.TabIndex = 6;
+            this.labelVar.Text = "Variance:";
+            // 
+            // numericUpDownVarMs
+            // 
+            this.numericUpDownVarMs.Location = new System.Drawing.Point(61, 52);
+            this.numericUpDownVarMs.Maximum = new decimal(new int[] {
+            -1530494976,
+            232830,
+            0,
+            0});
+            this.numericUpDownVarMs.Name = "numericUpDownVarMs";
+            this.numericUpDownVarMs.Size = new System.Drawing.Size(47, 20);
+            this.numericUpDownVarMs.TabIndex = 4;
+            this.numericUpDownVarMs.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // labelVarMs
+            // 
+            this.labelVarMs.AutoSize = true;
+            this.labelVarMs.Location = new System.Drawing.Point(114, 54);
+            this.labelVarMs.Name = "labelVarMs";
+            this.labelVarMs.Size = new System.Drawing.Size(20, 13);
+            this.labelVarMs.TabIndex = 5;
+            this.labelVarMs.Text = "ms";
             // 
             // comboBoxMouseButton
             // 
@@ -140,6 +204,20 @@
             this.panelClickEvent.Name = "panelClickEvent";
             this.panelClickEvent.Size = new System.Drawing.Size(220, 244);
             this.panelClickEvent.TabIndex = 0;
+            // 
+            // locationPickerClickEvent
+            // 
+            this.locationPickerClickEvent.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
+            this.locationPickerClickEvent.Location = new System.Drawing.Point(113, 7);
+            this.locationPickerClickEvent.Name = "locationPickerClickEvent";
+            this.locationPickerClickEvent.Point = new System.Drawing.Point(0, 0);
+            this.locationPickerClickEvent.Size = new System.Drawing.Size(102, 238);
+            this.locationPickerClickEvent.TabIndex = 4;
+            this.locationPickerClickEvent.Title = "Location";
+            this.locationPickerClickEvent.X = 0;
+            this.locationPickerClickEvent.XVariance = 0;
+            this.locationPickerClickEvent.Y = 0;
+            this.locationPickerClickEvent.YVariance = 0;
             // 
             // labelEventType
             // 
@@ -174,83 +252,6 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // numericUpDownVarMs
-            // 
-            this.numericUpDownVarMs.Location = new System.Drawing.Point(61, 52);
-            this.numericUpDownVarMs.Maximum = new decimal(new int[] {
-            -1530494976,
-            232830,
-            0,
-            0});
-            this.numericUpDownVarMs.Name = "numericUpDownVarMs";
-            this.numericUpDownVarMs.Size = new System.Drawing.Size(47, 20);
-            this.numericUpDownVarMs.TabIndex = 4;
-            this.numericUpDownVarMs.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // labelVarMs
-            // 
-            this.labelVarMs.AutoSize = true;
-            this.labelVarMs.Location = new System.Drawing.Point(114, 54);
-            this.labelVarMs.Name = "labelVarMs";
-            this.labelVarMs.Size = new System.Drawing.Size(20, 13);
-            this.labelVarMs.TabIndex = 5;
-            this.labelVarMs.Text = "ms";
-            // 
-            // labelVar
-            // 
-            this.labelVar.AutoSize = true;
-            this.labelVar.Location = new System.Drawing.Point(3, 54);
-            this.labelVar.Name = "labelVar";
-            this.labelVar.Size = new System.Drawing.Size(52, 13);
-            this.labelVar.TabIndex = 6;
-            this.labelVar.Text = "Variance:";
-            // 
-            // locationPickerStartLocation
-            // 
-            this.locationPickerStartLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
-            this.locationPickerStartLocation.Location = new System.Drawing.Point(5, 7);
-            this.locationPickerStartLocation.Name = "locationPickerStartLocation";
-            this.locationPickerStartLocation.Point = new System.Drawing.Point(0, 0);
-            this.locationPickerStartLocation.Size = new System.Drawing.Size(102, 236);
-            this.locationPickerStartLocation.TabIndex = 5;
-            this.locationPickerStartLocation.Title = "Start location";
-            this.locationPickerStartLocation.X = 0;
-            this.locationPickerStartLocation.XVariance = 0;
-            this.locationPickerStartLocation.Y = 0;
-            this.locationPickerStartLocation.YVariance = 0;
-            // 
-            // locationPickerEndLocation
-            // 
-            this.locationPickerEndLocation.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
-            this.locationPickerEndLocation.Location = new System.Drawing.Point(113, 7);
-            this.locationPickerEndLocation.Name = "locationPickerEndLocation";
-            this.locationPickerEndLocation.Point = new System.Drawing.Point(0, 0);
-            this.locationPickerEndLocation.Size = new System.Drawing.Size(102, 236);
-            this.locationPickerEndLocation.TabIndex = 4;
-            this.locationPickerEndLocation.Title = "End location";
-            this.locationPickerEndLocation.X = 0;
-            this.locationPickerEndLocation.XVariance = 0;
-            this.locationPickerEndLocation.Y = 0;
-            this.locationPickerEndLocation.YVariance = 0;
-            // 
-            // locationPickerClickEvent
-            // 
-            this.locationPickerClickEvent.CoordinateSystem = AutoClicker.Objects.CoordinateSystem.Absolute;
-            this.locationPickerClickEvent.Location = new System.Drawing.Point(113, 7);
-            this.locationPickerClickEvent.Name = "locationPickerClickEvent";
-            this.locationPickerClickEvent.Point = new System.Drawing.Point(0, 0);
-            this.locationPickerClickEvent.Size = new System.Drawing.Size(102, 238);
-            this.locationPickerClickEvent.TabIndex = 4;
-            this.locationPickerClickEvent.Title = "Location";
-            this.locationPickerClickEvent.X = 0;
-            this.locationPickerClickEvent.XVariance = 0;
-            this.locationPickerClickEvent.Y = 0;
-            this.locationPickerClickEvent.YVariance = 0;
-            // 
             // AddEditEventDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -262,6 +263,9 @@
             this.Controls.Add(this.panelWaitEvent);
             this.Controls.Add(this.panelMouseMoveEvent);
             this.Controls.Add(this.panelClickEvent);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddEditEventDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add or Edit Event";
@@ -269,9 +273,9 @@
             this.panelMouseMoveEvent.ResumeLayout(false);
             this.panelWaitEvent.ResumeLayout(false);
             this.panelWaitEvent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVarMs)).EndInit();
             this.panelClickEvent.ResumeLayout(false);
             this.panelClickEvent.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVarMs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
