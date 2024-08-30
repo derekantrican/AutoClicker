@@ -40,8 +40,8 @@ namespace AutoClicker.Windows
                 CoordinateSystem = value.CoordinateSystem;
                 X = value.X;
                 Y = value.Y;
-                XVariance *= value.Variance.X;
-                YVariance *= value.Variance.Y;
+                XVariance = value.Variance.X;
+                YVariance = value.Variance.Y;
             }
         }
 
