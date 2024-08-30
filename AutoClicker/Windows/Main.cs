@@ -19,6 +19,8 @@ namespace AutoClicker
         //Todo: maybe allow keyboard input
         //Todo: add a "Image Validation" or similar action that will check a certain section on the screen against a reference image and stop the program if there isn't a match
 
+        private IKeyboardMouseEvents keyboardMouseEvents;
+
         public Main()
         {
             InitializeComponent();
@@ -28,7 +30,8 @@ namespace AutoClicker
         {
             labelEscTip.Visible = false;
 
-            Hook.GlobalEvents().KeyDown += CheckForStopRunning;
+            keyboardMouseEvents = Hook.GlobalEvents();
+			keyboardMouseEvents.KeyDown += CheckForStopRunning;
         }
 
         bool isStopped = false; //Todo: convert to CancellationToken
@@ -269,11 +272,11 @@ namespace AutoClicker
         {
             if (checkBoxDisplayMouseLoc.Checked)
             {
-                Hook.GlobalEvents().MouseClick += MouseLocationUpdate;
+				keyboardMouseEvents.MouseClick += MouseLocationUpdate;
             }
             else
             {
-                Hook.GlobalEvents().MouseClick -= MouseLocationUpdate;
+				keyboardMouseEvents.MouseClick -= MouseLocationUpdate;
             }
         }
 

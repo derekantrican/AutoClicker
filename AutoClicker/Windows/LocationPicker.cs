@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 using AutoClicker.Objects;
 using Gma.System.MouseKeyHook;
@@ -8,11 +7,14 @@ namespace AutoClicker.Windows
 {
     public partial class LocationPicker : UserControl
     {
+        private IKeyboardMouseEvents keyboardMouseEvents;
+
         public LocationPicker()
         {
             InitializeComponent();
 
-            comboBoxCoordinateSystem.SelectedIndex = 0;
+            keyboardMouseEvents = Hook.GlobalEvents();
+			comboBoxCoordinateSystem.SelectedIndex = 0;
         }
 
         public string Title
@@ -75,15 +77,19 @@ namespace AutoClicker.Windows
 
         private void buttonPick_Click(object sender, EventArgs e)
         {
-            Hook.GlobalEvents().MouseClick += SaveChosenPoint;
+            keyboardMouseEvents.MouseClick += SaveChosenPoint; 
+            buttonPick.Enabled = false;
+            buttonPick.Text = "Picking...";
         }
 
         private void SaveChosenPoint(object sender, MouseEventArgs e)
         {
-            X = e.X;
+			X = e.X;
             Y = e.Y;
 
-            Hook.GlobalEvents().MouseClick -= SaveChosenPoint;
-        }
+			keyboardMouseEvents.MouseClick -= SaveChosenPoint;
+			buttonPick.Enabled = true;
+			buttonPick.Text = "Pick";
+		}
     }
 }
