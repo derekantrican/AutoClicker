@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AutoClicker.Helpers;
 using AutoClicker.Objects;
 using AutoClicker.Windows;
 using Gma.System.MouseKeyHook;
@@ -77,7 +78,13 @@ namespace AutoClicker
 
                         UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = action);
 
-                        action.PerformAction();
+                        bool success = action.PerformAction(/*Todo: pass in cancellation token so calling "stop" will also cancel events in the middle (like WaitEvent)*/);
+
+                        if (!success)
+                        {
+                            MessageBox.Show($"Action failed: {action}");
+                            isStopped = true;
+                        }
                     }
 
                     UpdateControlOnUI(statusStrip, () =>
@@ -192,7 +199,8 @@ namespace AutoClicker
                         Formatting = Formatting.Indented,
                         Converters = new List<JsonConverter>
                         {
-                            new StringEnumConverter()
+                            new StringEnumConverter(),
+                            new BitmapJsonConverter(),
                         },
                     }));
                 }
@@ -223,6 +231,10 @@ namespace AutoClicker
                     SaveData saveData = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText(dialog.FileName), new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.Objects,
+                        Converters = new List<JsonConverter>
+                        {
+							new BitmapJsonConverter(),
+						},
                     });
 
                     foreach (IBaseEvent action in saveData.Actions)

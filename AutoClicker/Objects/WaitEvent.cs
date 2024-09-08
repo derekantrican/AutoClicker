@@ -9,9 +9,11 @@ namespace AutoClicker.Objects
 
         public int VarianceMs { get; set; } = 350;
 
-        public void PerformAction()
+        public bool PerformAction()
         {
             Thread.Sleep(WaitDuration.Add(TimeSpan.FromMilliseconds(new Random().Next(VarianceMs))));
+
+            return true;
         }
 
         //Todo: should move cursor randomly while waiting

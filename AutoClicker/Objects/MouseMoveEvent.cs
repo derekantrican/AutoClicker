@@ -11,7 +11,7 @@ namespace AutoClicker.Objects
         public ImpreciseLocation StartLocation { get; set; }
         public ImpreciseLocation EndLocation { get; set; }
 
-        public void PerformAction()
+        public bool PerformAction()
         {
             Point adjustedStartLocation;
             if (StartLocation.CoordinateSystem == CoordinateSystem.Absolute)
@@ -36,6 +36,8 @@ namespace AutoClicker.Objects
             {
                 MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, Cursor.Position.X + EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X), Cursor.Position.Y + EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y));
             }
+
+            return true;
         }
 
         public override string ToString()

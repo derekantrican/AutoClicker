@@ -6,10 +6,11 @@ namespace AutoClicker.Objects
         ClickEvent,
         MouseMoveEvent,
         WaitEvent,
+        ImageValidation,
     }
 
     public interface IBaseEvent
     {
-        void PerformAction();
+        bool PerformAction();
     }
 }

@@ -55,7 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\BitmapJsonConverter.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\Rand.cs" />
+    <Compile Include="Objects\ImageValidation.cs" />
     <Compile Include="Objects\ImpreciseLocation.cs" />
     <Compile Include="Objects\Rect.cs" />
     <Compile Include="Objects\SaveData.cs" />

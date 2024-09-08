@@ -18,7 +18,7 @@ namespace AutoClicker.Objects
 
         public ImpreciseLocation Location { get; set; }
 
-        public void PerformAction()
+        public bool PerformAction()
         {
             Point adjustedClickLocation;
             if (Location.CoordinateSystem == CoordinateSystem.Absolute)
@@ -47,6 +47,8 @@ namespace AutoClicker.Objects
                     mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, (uint)Location.X, (uint)Location.Y, 0, 0);
                     break;
             }
+
+            return true;
         }
 
         public override string ToString()
