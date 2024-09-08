@@ -260,9 +260,15 @@ namespace AutoClicker
                         {
                             comboBoxWindowList.SelectedItem = matchingTargetWindow;
 
-                            if (matchingTargetWindow.GetBounds().ToString() != saveData.TargetWindow.Bounds.ToString()) //ToString is not "technically proper" but is the easiest
+                            if (matchingTargetWindow.GetBounds().ToString() != saveData.TargetWindow.Bounds.ToString()) //ToString comparison is not "technically proper" but is the easiest
                             {
-                                DialogResult result = MessageBox.Show($"The postion or size for '{saveData.TargetWindow.Title}' is not the same as last time. Adjust the target window to match saved position & size?\n" +
+								//Todo: instead of just moving the window to match, give the option to adjust the action coordinates (only absolute ones) to adjust to the current size & position of the window
+								// - "Adjust window": we should call 'matchingTargetWindow.AdjustWindowBounds(savedBounds)'
+                                // - "Adjust actions: to window position": shift all the ABSOLUTE action coordinates according to the new window POSITION ONLY
+                                // - "Ajust actions: to window position & size": shift all the ABSOLUTE action coordinates according to the new window POSITION, PLUS by a percentage of the new size
+                                //    (take the action's coordinate and find percentage of old height & percentage of old width, then use that percentage and the new width/height to calculate new coordinates)
+
+								DialogResult result = MessageBox.Show($"The postion or size for '{saveData.TargetWindow.Title}' is not the same as last time. Adjust the target window to match saved position & size?\n" +
                                     $"\nSaved: {saveData.TargetWindow.Bounds}" +
                                     $"\nCurrent: {matchingTargetWindow.GetBounds()}",
                                     "Target window size/position not the same",
