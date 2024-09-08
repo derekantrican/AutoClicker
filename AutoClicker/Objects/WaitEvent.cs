@@ -9,9 +9,9 @@ namespace AutoClicker.Objects
 
         public int VarianceMs { get; set; } = 350;
 
-        public bool PerformAction()
-        {
-            Thread.Sleep(WaitDuration.Add(TimeSpan.FromMilliseconds(new Random().Next(VarianceMs))));
+        public bool PerformAction(CancellationToken cancellationToken)
+		{
+            cancellationToken.WaitHandle.WaitOne(WaitDuration.Add(TimeSpan.FromMilliseconds(new Random().Next(VarianceMs))));
 
             return true;
         }

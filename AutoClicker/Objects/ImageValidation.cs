@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using AutoClicker.Helpers;
 
 namespace AutoClicker.Objects
@@ -10,7 +11,7 @@ namespace AutoClicker.Objects
 		public Size CheckAreaSize { get; set; }
 		public Bitmap Image { get; set; }
 
-		public bool PerformAction()
+		public bool PerformAction(CancellationToken cancellationToken /*Not Implemented here*/)
 		{
 			using (Bitmap bitmap = new Bitmap(CheckAreaSize.Width, CheckAreaSize.Height))
 			{

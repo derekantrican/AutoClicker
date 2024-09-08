@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
 
@@ -18,8 +19,8 @@ namespace AutoClicker.Objects
 
         public ImpreciseLocation Location { get; set; }
 
-        public bool PerformAction()
-        {
+        public bool PerformAction(CancellationToken cancellationToken)
+		{
             Point adjustedClickLocation;
             if (Location.CoordinateSystem == CoordinateSystem.Absolute)
             {
@@ -32,7 +33,11 @@ namespace AutoClicker.Objects
 
             if (Cursor.Position != adjustedClickLocation)
             {
-                MouseMoveEvent.MoveMouse(Cursor.Position.X, Cursor.Position.Y, adjustedClickLocation.X, adjustedClickLocation.Y);
+                MouseMoveEvent.MoveMouse(Cursor.Position.X,
+                    Cursor.Position.Y,
+                    adjustedClickLocation.X,
+                    adjustedClickLocation.Y,
+                    cancellationToken);
             }
 
             switch(MouseButton)

@@ -1,4 +1,6 @@
 ﻿
+using System.Threading;
+
 namespace AutoClicker.Objects
 {
     public enum EventType
@@ -11,6 +13,6 @@ namespace AutoClicker.Objects
 
     public interface IBaseEvent
     {
-        bool PerformAction();
+        bool PerformAction(CancellationToken cancellationToken);
     }
 }

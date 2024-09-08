@@ -11,7 +11,7 @@ namespace AutoClicker.Objects
         public ImpreciseLocation StartLocation { get; set; }
         public ImpreciseLocation EndLocation { get; set; }
 
-        public bool PerformAction()
+        public bool PerformAction(CancellationToken cancellationToken)
         {
             Point adjustedStartLocation;
             if (StartLocation.CoordinateSystem == CoordinateSystem.Absolute)
@@ -25,16 +25,28 @@ namespace AutoClicker.Objects
 
             if (Cursor.Position != adjustedStartLocation)
             {
-                MoveMouse(Cursor.Position.X, Cursor.Position.Y, adjustedStartLocation.X, adjustedStartLocation.Y);
+                MoveMouse(Cursor.Position.X,
+                    Cursor.Position.Y,
+                    adjustedStartLocation.X,
+                    adjustedStartLocation.Y,
+                    cancellationToken);
             }
 
             if (EndLocation.CoordinateSystem == CoordinateSystem.Absolute)
             {
-                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X), EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y));
+                MoveMouse(adjustedStartLocation.X,
+                    adjustedStartLocation.Y,
+                    EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X),
+                    EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y),
+                    cancellationToken);
             }
             else
             {
-                MoveMouse(adjustedStartLocation.X, adjustedStartLocation.Y, Cursor.Position.X + EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X), Cursor.Position.Y + EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y));
+                MoveMouse(adjustedStartLocation.X,
+                    adjustedStartLocation.Y,
+                    Cursor.Position.X + EndLocation.X + Rand.Int(-EndLocation.Variance.X, EndLocation.Variance.X),
+                    Cursor.Position.Y + EndLocation.Y + Rand.Int(-EndLocation.Variance.Y, EndLocation.Variance.Y),
+                    cancellationToken);
             }
 
             return true;
@@ -45,20 +57,20 @@ namespace AutoClicker.Objects
             return $"[MouseMove] Start: ({StartLocation.X}±{StartLocation.Variance.X}, {StartLocation.Y}±{StartLocation.Variance.Y}); End: ({EndLocation.X}±{EndLocation.Variance.X}, {EndLocation.Y}±{EndLocation.Variance.Y})";
         }
 
-        public static void MoveMouse(int x, int y, int rx, int ry)
+        public static void MoveMouse(int x, int y, int rx, int ry, CancellationToken cancellationToken)
         {
             int mouseSpeed = Hypot(rx - x, ry - y) < 300 ? 5 : 15; //Move slower for shorter distances (more realistic)
 
             double randomSpeed = Math.Max((Rand.Int(mouseSpeed) / 2.0 + mouseSpeed) / 10.0, 0.1);
 
             WindMouse(x, y, rx, ry, 9.0, 3.0, 10.0 / randomSpeed,
-                15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed);
+                15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed, cancellationToken);
         }
 
         //https://stackoverflow.com/a/13778103/2246411
         static void WindMouse(double xs, double ys, double xe, double ye,
             double gravity, double wind, double minWait, double maxWait,
-            double maxStep, double targetArea)
+            double maxStep, double targetArea, CancellationToken cancellationToken)
         {
 
             double dist, windX = 0, windY = 0, veloX = 0, veloY = 0, randomDist, veloMag, step;
@@ -73,6 +85,10 @@ namespace AutoClicker.Objects
 
             while (dist > 1.0)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
 
                 wind = Math.Min(wind, dist);
 

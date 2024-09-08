@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
@@ -35,16 +36,17 @@ namespace AutoClicker
 			keyboardMouseEvents.KeyDown += CheckForStopRunning;
         }
 
-        bool isStopped = false; //Todo: convert to CancellationToken
+        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             buttonPlay.Enabled = false;
-            isStopped = false;
             labelEscTip.Visible = true;
             timesEscPressed.Clear();
             toolStripProgressBar.Maximum = (int)numericUpDownRepeat.Value;
             toolStripProgressBar.Value = 0;
+
+            cancellationTokenSource = new CancellationTokenSource();
 
             Task.Run(() =>
             {
@@ -62,7 +64,7 @@ namespace AutoClicker
 
                     foreach (IBaseEvent action in queuedActions)
                     {
-                        if (isStopped)
+                        if (cancellationTokenSource.IsCancellationRequested)
                         {
                             UpdateControlOnUI(statusStrip, () =>
                             {
@@ -78,12 +80,12 @@ namespace AutoClicker
 
                         UpdateControlOnUI(listBoxQueue, () => listBoxQueue.SelectedItem = action);
 
-                        bool success = action.PerformAction(/*Todo: pass in cancellation token so calling "stop" will also cancel events in the middle (like WaitEvent)*/);
+                        bool success = action.PerformAction(cancellationTokenSource.Token);
 
                         if (!success)
                         {
                             MessageBox.Show($"Action failed: {action}");
-                            isStopped = true;
+                            cancellationTokenSource.Cancel();
                         }
                     }
 
@@ -115,7 +117,7 @@ namespace AutoClicker
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            isStopped = true;
+            cancellationTokenSource.Cancel();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -301,14 +303,14 @@ namespace AutoClicker
         private Stack<DateTime> timesEscPressed = new Stack<DateTime>();
         private void CheckForStopRunning(object sender, KeyEventArgs e)
         {
-            if (!isStopped && e.KeyCode == Keys.Escape)
+            if (!cancellationTokenSource.IsCancellationRequested && e.KeyCode == Keys.Escape)
             {
                 DateTime now = DateTime.Now;
                 timesEscPressed.Push(now);
 
                 if (timesEscPressed.Count >= 3 && (now - timesEscPressed.ElementAt(2)).TotalSeconds < 5)
                 {
-                    isStopped = true;
+                    cancellationTokenSource.Cancel();
                     timesEscPressed.Clear();
                 }
             }
