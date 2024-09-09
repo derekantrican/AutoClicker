@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,9 +18,7 @@ namespace AutoClicker
 {
     public partial class Main : Form
     {
-        //Todo: maybe use native GetCursorPos and SetCursorPos instead of Cursor.Postion (maybe this is more reliable?)
         //Todo: maybe allow keyboard input
-        //Todo: add a "Image Validation" or similar action that will check a certain section on the screen against a reference image and stop the program if there isn't a match
 
         private IKeyboardMouseEvents keyboardMouseEvents;
 
@@ -122,7 +121,8 @@ namespace AutoClicker
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            AddEditEventDialog addEditEventDialog = new AddEditEventDialog(null);
+            Point? relativeTo = GetRelativePointFromPreviousActions(listBoxQueue.Items.Count - 1);
+            AddEditEventDialog addEditEventDialog = new AddEditEventDialog(null, relativeTo);
             addEditEventDialog.ResultEventAction += result => listBoxQueue.Items.Add(result);
             addEditEventDialog.ShowDialog();
         }
@@ -327,7 +327,16 @@ namespace AutoClicker
             int index = listBoxQueue.IndexFromPoint(e.Location);
             if (index != ListBox.NoMatches)
             {
-                AddEditEventDialog editDialog = new AddEditEventDialog(listBoxQueue.Items[index] as IBaseEvent);
+                IBaseEvent matchingEvent = listBoxQueue.Items[index] as IBaseEvent;
+
+                Point? relativeTo = null;
+				if ((matchingEvent is ClickEvent clickEvent && clickEvent.Location.CoordinateSystem == CoordinateSystem.Relative) ||
+                    (matchingEvent is MouseMoveEvent mouseMoveEvent && mouseMoveEvent.StartLocation.CoordinateSystem == CoordinateSystem.Relative))
+                {
+                    relativeTo = GetRelativePointFromPreviousActions(index - 1);
+				}
+
+                AddEditEventDialog editDialog = new AddEditEventDialog(matchingEvent, relativeTo);
                 editDialog.ResultEventAction += result =>
                 {
                     listBoxQueue.Items.RemoveAt(index);
@@ -336,6 +345,51 @@ namespace AutoClicker
                 editDialog.ShowDialog();
             }
         }
+
+        private Point? GetRelativePointFromPreviousActions(int currentIndex)
+        {
+			//This block is a bit of a complicated mess, but it's necessary if we want to accurately show (via the "Show" button in the AddEditEventDialog)
+			//  where the action will happen if the action is relative to a previous coordinate
+			Point? relativeTo = null;
+			Stack<Point> adjustments = new Stack<Point>();
+			Func<ImpreciseLocation, bool> processLocation = location =>
+			{
+				if (location.CoordinateSystem == CoordinateSystem.Absolute)
+				{
+					relativeTo = location.Point;
+					return true;
+				}
+				else
+				{
+					adjustments.Push(location.Point);
+					return false;
+				}
+			};
+
+			//Process all the coordinates for previous actions until we reach an absolute coordinate
+			for (int i = currentIndex; i >= 0; i--)
+			{
+				if (listBoxQueue.Items[i] is ClickEvent prevClickEvent &&
+					processLocation(prevClickEvent.Location))
+				{
+					break;
+				}
+				else if (listBoxQueue.Items[i] is MouseMoveEvent prevMouseMoveEvent &&
+					(processLocation(prevMouseMoveEvent.EndLocation) ||
+					 processLocation(prevMouseMoveEvent.StartLocation)))
+				{
+					break;
+				}
+			}
+
+			//Unwind all adjustments from previous events to get the final relative point
+			foreach (Point adjustment in adjustments)
+			{
+				relativeTo = new Point(relativeTo.Value.X + adjustment.X, relativeTo.Value.Y + adjustment.Y);
+			}
+
+            return relativeTo;
+		}
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {

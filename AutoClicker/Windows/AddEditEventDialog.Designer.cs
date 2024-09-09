@@ -47,6 +47,7 @@
 			this.comboBoxEventType = new System.Windows.Forms.ComboBox();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.panelImageValidation = new System.Windows.Forms.Panel();
+			this.labelImageInfo = new System.Windows.Forms.Label();
 			this.labelImageAreaSize = new System.Windows.Forms.Label();
 			this.textBoxCheckAreaHeight = new System.Windows.Forms.TextBox();
 			this.labelCheckAreaHeight = new System.Windows.Forms.Label();
@@ -60,7 +61,7 @@
 			this.buttonChooseImage = new System.Windows.Forms.Button();
 			this.pictureBoxImage = new System.Windows.Forms.PictureBox();
 			this.labelImageValidation = new System.Windows.Forms.Label();
-			this.labelImageInfo = new System.Windows.Forms.Label();
+			this.buttonShowPoint = new System.Windows.Forms.Button();
 			this.locationPickerStartLocation = new AutoClicker.Windows.LocationPicker();
 			this.locationPickerEndLocation = new AutoClicker.Windows.LocationPicker();
 			this.locationPickerClickEvent = new AutoClicker.Windows.LocationPicker();
@@ -252,6 +253,14 @@
 			this.panelImageValidation.Size = new System.Drawing.Size(220, 247);
 			this.panelImageValidation.TabIndex = 7;
 			// 
+			// labelImageInfo
+			// 
+			this.labelImageInfo.Location = new System.Drawing.Point(137, 71);
+			this.labelImageInfo.Name = "labelImageInfo";
+			this.labelImageInfo.Size = new System.Drawing.Size(80, 59);
+			this.labelImageInfo.TabIndex = 17;
+			this.labelImageInfo.Text = "Width:\r\n\r\nHeight:";
+			// 
 			// labelImageAreaSize
 			// 
 			this.labelImageAreaSize.AutoSize = true;
@@ -366,13 +375,16 @@
 			this.labelImageValidation.TabIndex = 1;
 			this.labelImageValidation.Text = "Image Validation";
 			// 
-			// labelImageInfo
+			// buttonShowPoint
 			// 
-			this.labelImageInfo.Location = new System.Drawing.Point(137, 71);
-			this.labelImageInfo.Name = "labelImageInfo";
-			this.labelImageInfo.Size = new System.Drawing.Size(80, 59);
-			this.labelImageInfo.TabIndex = 17;
-			this.labelImageInfo.Text = "Width:\r\n\r\nHeight:";
+			this.buttonShowPoint.Location = new System.Drawing.Point(7, 285);
+			this.buttonShowPoint.Name = "buttonShowPoint";
+			this.buttonShowPoint.Size = new System.Drawing.Size(75, 23);
+			this.buttonShowPoint.TabIndex = 10;
+			this.buttonShowPoint.Text = "Show (hold)";
+			this.buttonShowPoint.UseVisualStyleBackColor = true;
+			this.buttonShowPoint.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonShowPoint_MouseDown);
+			this.buttonShowPoint.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonShowPoint_MouseUp);
 			// 
 			// locationPickerStartLocation
 			// 
@@ -430,6 +442,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(979, 311);
+			this.Controls.Add(this.buttonShowPoint);
 			this.Controls.Add(this.panelImageValidation);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.comboBoxEventType);
@@ -491,5 +504,6 @@
 		private System.Windows.Forms.Label labelCheckAreaWidth;
 		private System.Windows.Forms.Label labelImageLocation;
 		private System.Windows.Forms.Label labelImageInfo;
+		private System.Windows.Forms.Button buttonShowPoint;
 	}
 }

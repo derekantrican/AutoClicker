@@ -17,5 +17,35 @@ namespace AutoClicker.Objects
         public int Y { get; set; }
 
         public Variance Variance { get; set; }
+
+        public Point Point
+        {
+            get
+            {
+                return new Point(X, Y);
+            }
+        }
+
+        public ImpreciseLocation ShiftRelativeIfNeeded(Point? relativeTo)
+        {
+            if (!relativeTo.HasValue)
+            {
+                return this;
+            }
+
+            if (CoordinateSystem == CoordinateSystem.Absolute)
+            {
+                return this;
+            }
+            else
+            {
+                return new ImpreciseLocation
+                {
+                    X = this.X + relativeTo.Value.X,
+                    Y = this.Y + relativeTo.Value.Y,
+                    Variance = this.Variance,
+                };
+            }
+        }
     }
 }

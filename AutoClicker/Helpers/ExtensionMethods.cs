@@ -82,5 +82,22 @@ namespace AutoClicker.Helpers
 
 			return true;
 		}
+
+		public static Bitmap RotateImage(this Image image, float angle)
+		{
+			Bitmap rotatedBmp = new Bitmap(image.Width, image.Height);
+			rotatedBmp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+			using (Graphics g = Graphics.FromImage(rotatedBmp))
+			{
+				Point offset = new Point(image.Width / 2, image.Height / 2); //Rotate around center
+				g.TranslateTransform(offset.X, offset.Y);
+				g.RotateTransform(angle);
+				g.TranslateTransform(-offset.X, -offset.Y);
+				g.DrawImage(image, new PointF(0, 0));
+			}
+
+			return rotatedBmp;
+		}
 	}
 }

@@ -10,15 +10,14 @@ namespace AutoClicker.Windows
 {
     public partial class AddEditEventDialog : Form
     {
-        public AddEditEventDialog(IBaseEvent baseEvent)
+        Point? relativeTo;
+        public AddEditEventDialog(IBaseEvent baseEvent, Point? relativeTo)
         {
             InitializeComponent();
 
+            this.relativeTo = relativeTo;
             InitControls(baseEvent);
         }
-
-        //Todo: add a "Show" button at the bottom (across from Save button) that will show a transparent form (with a red X or something)
-        //on the screen where the click/move/imagevalidation will happen
 
         private readonly Point leftPanelLocation = new Point(0, 35);
 
@@ -62,6 +61,7 @@ namespace AutoClicker.Windows
                 }
                 else if (baseEvent is WaitEvent waitEvent)
                 {
+                    buttonShowPoint.Visible = false;
                     comboBoxEventType.SelectedIndex = 2;
                     SetVisibleEventPanel(EventType.WaitEvent);
                     numericUpDownDurationMs.Value = (decimal)waitEvent.WaitDuration.TotalMilliseconds;
@@ -185,6 +185,76 @@ namespace AutoClicker.Windows
                     labelImageInfo.Text = $"Width: {bitmap.Width}\n\nHeight: {bitmap.Height}";
 				}
 			}
+		}
+
+        bool showingIndicators = false;
+        List<Form> indicators = new List<Form>();
+
+		private void buttonShowPoint_MouseDown(object sender, MouseEventArgs e)
+		{
+            if (!showingIndicators)
+            {
+				switch ((EventType)comboBoxEventType.SelectedIndex)
+                {
+                    case EventType.WaitEvent:
+                        //Do nothing
+                        return;
+                    case EventType.ClickEvent:
+						LocationIndicator clickLocation = new LocationIndicator();
+						clickLocation.Show();
+                        clickLocation.SetLocation(locationPickerClickEvent.ChosenLocation.ShiftRelativeIfNeeded(relativeTo));
+						indicators.Add(clickLocation);
+						break;
+                    case EventType.MouseMoveEvent:
+						LocationIndicator mouseMoveStart = new LocationIndicator();
+						mouseMoveStart.Show();
+                        mouseMoveStart.SetLocationWithReferenceLocation(locationPickerStartLocation.ChosenLocation.ShiftRelativeIfNeeded(relativeTo),
+                            locationPickerEndLocation.ChosenLocation.ShiftRelativeIfNeeded(relativeTo).Point);
+                        indicators.Add(mouseMoveStart);
+
+                        Point? endRelativeTo = null;
+                        if (locationPickerEndLocation.ChosenLocation.CoordinateSystem == CoordinateSystem.Relative)
+                        {
+                            if (locationPickerStartLocation.ChosenLocation.CoordinateSystem == CoordinateSystem.Absolute)
+                            {
+                                endRelativeTo = locationPickerStartLocation.ChosenLocation.Point;
+                            }
+                            else
+                            {
+                                endRelativeTo = locationPickerStartLocation.ChosenLocation.ShiftRelativeIfNeeded(relativeTo).Point;
+                            }
+                        }
+
+						LocationIndicator mouseMoveEnd = new LocationIndicator();
+						mouseMoveEnd.Show();
+                        mouseMoveEnd.SetLocation(locationPickerEndLocation.ChosenLocation.ShiftRelativeIfNeeded(endRelativeTo));
+						indicators.Add(mouseMoveEnd);
+						break;
+                    case EventType.ImageValidation:
+						LocationIndicator imageValidationLocationIndicator = new LocationIndicator();
+						imageValidationLocationIndicator.Show();
+                        imageValidationLocationIndicator.SetPointAndArea(new Point(Convert.ToInt32(textBoxImageLocX.Text), Convert.ToInt32(textBoxImageLocY.Text)),
+                            new Size(Convert.ToInt32(textBoxCheckAreaWidth.Text), Convert.ToInt32(textBoxCheckAreaHeight.Text)));
+						indicators.Add(imageValidationLocationIndicator);
+						break;
+                }
+
+				showingIndicators = true;
+			}
+		}
+
+		private void buttonShowPoint_MouseUp(object sender, MouseEventArgs e)
+		{
+            if (showingIndicators)
+            {
+                foreach (Form indicator in indicators.ToList() /*make copy*/)
+                {
+                    indicator.Close();
+                    indicators.Remove(indicator);
+                }
+
+                showingIndicators = false;
+            }
 		}
 	}
 }
