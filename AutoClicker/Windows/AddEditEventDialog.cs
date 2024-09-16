@@ -5,17 +5,22 @@ using System.Linq;
 using System.Windows.Forms;
 using AutoClicker.Helpers;
 using AutoClicker.Objects;
+using Gma.System.MouseKeyHook;
 
 namespace AutoClicker.Windows
 {
     public partial class AddEditEventDialog : Form
     {
-        Point? relativeTo;
+		private IKeyboardMouseEvents keyboardMouseEvents;
+		Point? relativeTo;
+
         public AddEditEventDialog(IBaseEvent baseEvent, Point? relativeTo)
         {
             InitializeComponent();
 
-            this.relativeTo = relativeTo;
+			keyboardMouseEvents = Hook.GlobalEvents();
+			this.relativeTo = relativeTo;
+
             InitControls(baseEvent);
         }
 
@@ -43,7 +48,7 @@ namespace AutoClicker.Windows
             }
             else
             {
-                this.Text = "Edit Event";
+                this.Text = $"Edit Event ({baseEvent})";
 
                 if (baseEvent is ClickEvent clickEvent)
                 {
@@ -61,7 +66,6 @@ namespace AutoClicker.Windows
                 }
                 else if (baseEvent is WaitEvent waitEvent)
                 {
-                    buttonShowPoint.Visible = false;
                     comboBoxEventType.SelectedIndex = 2;
                     SetVisibleEventPanel(EventType.WaitEvent);
                     numericUpDownDurationMs.Value = (decimal)waitEvent.WaitDuration.TotalMilliseconds;
@@ -88,6 +92,8 @@ namespace AutoClicker.Windows
 
         private void SetVisibleEventPanel(EventType eventType)
         {
+            buttonShowPoint.Visible = true;
+
             switch (eventType)
             {
                 case EventType.ClickEvent:
@@ -107,6 +113,8 @@ namespace AutoClicker.Windows
                     panelMouseMoveEvent.Visible = false;
                     panelClickEvent.Visible = false;
 					panelImageValidation.Visible = false;
+
+                    buttonShowPoint.Visible = false;
 					break;
                 case EventType.ImageValidation:
                     panelImageValidation.Visible = true;
@@ -162,7 +170,7 @@ namespace AutoClicker.Windows
             this.Close();
         }
 
-		private void buttonChooseImage_Click(object sender, EventArgs e)
+		private void buttonUploadImage_Click(object sender, EventArgs e)
 		{
             //Todo: this should be a screenshot tool instead that will save both the image & the location from where it was taken
 			using (OpenFileDialog dialog = new OpenFileDialog())
@@ -255,6 +263,35 @@ namespace AutoClicker.Windows
 
                 showingIndicators = false;
             }
+		}
+
+		private void buttonScreenshot_Click(object sender, EventArgs e)
+		{
+            Bitmap bitmap = new Bitmap(Convert.ToInt32(textBoxCheckAreaWidth.Text), Convert.ToInt32(textBoxCheckAreaHeight.Text));
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.CopyFromScreen(new Point(Convert.ToInt32(textBoxImageLocX.Text), Convert.ToInt32(textBoxImageLocY.Text)), Point.Empty, bitmap.Size);
+            }
+
+            pictureBoxImage.Image = bitmap;
+            labelImageInfo.Text = $"Width: {bitmap.Width}\n\nHeight: {bitmap.Height}";
+		}
+
+		private void buttonImageValidationPointPick_Click(object sender, EventArgs e)
+		{
+			keyboardMouseEvents.MouseClick += SaveChosenImageValidationPoint;
+			buttonImageValidationPointPick.Enabled = false;
+			buttonImageValidationPointPick.Text = "Picking...";
+		}
+
+		private void SaveChosenImageValidationPoint(object sender, MouseEventArgs e)
+		{
+		    textBoxImageLocX.Text = e.X.ToString();
+			textBoxImageLocY.Text = e.Y.ToString();
+
+			keyboardMouseEvents.MouseClick -= SaveChosenImageValidationPoint;
+			buttonImageValidationPointPick.Enabled = true;
+			buttonImageValidationPointPick.Text = "Pick";
 		}
 	}
 }

@@ -47,6 +47,7 @@
 			this.comboBoxEventType = new System.Windows.Forms.ComboBox();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.panelImageValidation = new System.Windows.Forms.Panel();
+			this.buttonScreenshot = new System.Windows.Forms.Button();
 			this.labelImageInfo = new System.Windows.Forms.Label();
 			this.labelImageAreaSize = new System.Windows.Forms.Label();
 			this.textBoxCheckAreaHeight = new System.Windows.Forms.TextBox();
@@ -58,10 +59,12 @@
 			this.labelY = new System.Windows.Forms.Label();
 			this.textBoxImageLocX = new System.Windows.Forms.TextBox();
 			this.labelX = new System.Windows.Forms.Label();
-			this.buttonChooseImage = new System.Windows.Forms.Button();
+			this.buttonUploadImage = new System.Windows.Forms.Button();
 			this.pictureBoxImage = new System.Windows.Forms.PictureBox();
 			this.labelImageValidation = new System.Windows.Forms.Label();
 			this.buttonShowPoint = new System.Windows.Forms.Button();
+			this.labelOr = new System.Windows.Forms.Label();
+			this.buttonImageValidationPointPick = new System.Windows.Forms.Button();
 			this.locationPickerStartLocation = new AutoClicker.Windows.LocationPicker();
 			this.locationPickerEndLocation = new AutoClicker.Windows.LocationPicker();
 			this.locationPickerClickEvent = new AutoClicker.Windows.LocationPicker();
@@ -234,6 +237,9 @@
 			// 
 			// panelImageValidation
 			// 
+			this.panelImageValidation.Controls.Add(this.buttonImageValidationPointPick);
+			this.panelImageValidation.Controls.Add(this.labelOr);
+			this.panelImageValidation.Controls.Add(this.buttonScreenshot);
 			this.panelImageValidation.Controls.Add(this.labelImageInfo);
 			this.panelImageValidation.Controls.Add(this.labelImageAreaSize);
 			this.panelImageValidation.Controls.Add(this.textBoxCheckAreaHeight);
@@ -245,7 +251,7 @@
 			this.panelImageValidation.Controls.Add(this.labelY);
 			this.panelImageValidation.Controls.Add(this.textBoxImageLocX);
 			this.panelImageValidation.Controls.Add(this.labelX);
-			this.panelImageValidation.Controls.Add(this.buttonChooseImage);
+			this.panelImageValidation.Controls.Add(this.buttonUploadImage);
 			this.panelImageValidation.Controls.Add(this.pictureBoxImage);
 			this.panelImageValidation.Controls.Add(this.labelImageValidation);
 			this.panelImageValidation.Location = new System.Drawing.Point(678, 32);
@@ -253,9 +259,19 @@
 			this.panelImageValidation.Size = new System.Drawing.Size(220, 247);
 			this.panelImageValidation.TabIndex = 7;
 			// 
+			// buttonScreenshot
+			// 
+			this.buttonScreenshot.Location = new System.Drawing.Point(137, 68);
+			this.buttonScreenshot.Name = "buttonScreenshot";
+			this.buttonScreenshot.Size = new System.Drawing.Size(69, 28);
+			this.buttonScreenshot.TabIndex = 18;
+			this.buttonScreenshot.Text = "Screenshot";
+			this.buttonScreenshot.UseVisualStyleBackColor = true;
+			this.buttonScreenshot.Click += new System.EventHandler(this.buttonScreenshot_Click);
+			// 
 			// labelImageInfo
 			// 
-			this.labelImageInfo.Location = new System.Drawing.Point(137, 71);
+			this.labelImageInfo.Location = new System.Drawing.Point(134, 99);
 			this.labelImageInfo.Name = "labelImageInfo";
 			this.labelImageInfo.Size = new System.Drawing.Size(80, 59);
 			this.labelImageInfo.TabIndex = 17;
@@ -315,16 +331,16 @@
 			// 
 			// textBoxImageLocY
 			// 
-			this.textBoxImageLocY.Location = new System.Drawing.Point(117, 181);
+			this.textBoxImageLocY.Location = new System.Drawing.Point(103, 181);
 			this.textBoxImageLocY.Name = "textBoxImageLocY";
-			this.textBoxImageLocY.Size = new System.Drawing.Size(59, 20);
+			this.textBoxImageLocY.Size = new System.Drawing.Size(45, 20);
 			this.textBoxImageLocY.TabIndex = 11;
 			this.textBoxImageLocY.Text = "0";
 			// 
 			// labelY
 			// 
 			this.labelY.AutoSize = true;
-			this.labelY.Location = new System.Drawing.Point(94, 184);
+			this.labelY.Location = new System.Drawing.Point(80, 184);
 			this.labelY.Name = "labelY";
 			this.labelY.Size = new System.Drawing.Size(17, 13);
 			this.labelY.TabIndex = 10;
@@ -334,7 +350,7 @@
 			// 
 			this.textBoxImageLocX.Location = new System.Drawing.Point(29, 181);
 			this.textBoxImageLocX.Name = "textBoxImageLocX";
-			this.textBoxImageLocX.Size = new System.Drawing.Size(59, 20);
+			this.textBoxImageLocX.Size = new System.Drawing.Size(45, 20);
 			this.textBoxImageLocX.TabIndex = 9;
 			this.textBoxImageLocX.Text = "0";
 			// 
@@ -347,15 +363,15 @@
 			this.labelX.TabIndex = 8;
 			this.labelX.Text = "X:";
 			// 
-			// buttonChooseImage
+			// buttonUploadImage
 			// 
-			this.buttonChooseImage.Location = new System.Drawing.Point(164, 29);
-			this.buttonChooseImage.Name = "buttonChooseImage";
-			this.buttonChooseImage.Size = new System.Drawing.Size(53, 39);
-			this.buttonChooseImage.TabIndex = 3;
-			this.buttonChooseImage.Text = "Choose\r\nImage";
-			this.buttonChooseImage.UseVisualStyleBackColor = true;
-			this.buttonChooseImage.Click += new System.EventHandler(this.buttonChooseImage_Click);
+			this.buttonUploadImage.Location = new System.Drawing.Point(137, 10);
+			this.buttonUploadImage.Name = "buttonUploadImage";
+			this.buttonUploadImage.Size = new System.Drawing.Size(69, 39);
+			this.buttonUploadImage.TabIndex = 3;
+			this.buttonUploadImage.Text = "Upload\r\nImage";
+			this.buttonUploadImage.UseVisualStyleBackColor = true;
+			this.buttonUploadImage.Click += new System.EventHandler(this.buttonUploadImage_Click);
 			// 
 			// pictureBoxImage
 			// 
@@ -385,6 +401,26 @@
 			this.buttonShowPoint.UseVisualStyleBackColor = true;
 			this.buttonShowPoint.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonShowPoint_MouseDown);
 			this.buttonShowPoint.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonShowPoint_MouseUp);
+			// 
+			// labelOr
+			// 
+			this.labelOr.AutoSize = true;
+			this.labelOr.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelOr.Location = new System.Drawing.Point(144, 52);
+			this.labelOr.Name = "labelOr";
+			this.labelOr.Size = new System.Drawing.Size(49, 13);
+			this.labelOr.TabIndex = 19;
+			this.labelOr.Text = "-- OR --";
+			// 
+			// buttonImageValidationPointPick
+			// 
+			this.buttonImageValidationPointPick.Location = new System.Drawing.Point(154, 179);
+			this.buttonImageValidationPointPick.Name = "buttonImageValidationPointPick";
+			this.buttonImageValidationPointPick.Size = new System.Drawing.Size(60, 23);
+			this.buttonImageValidationPointPick.TabIndex = 20;
+			this.buttonImageValidationPointPick.Text = "Pick";
+			this.buttonImageValidationPointPick.UseVisualStyleBackColor = true;
+			this.buttonImageValidationPointPick.Click += new System.EventHandler(this.buttonImageValidationPointPick_Click);
 			// 
 			// locationPickerStartLocation
 			// 
@@ -492,7 +528,7 @@
 		private System.Windows.Forms.Panel panelImageValidation;
 		private System.Windows.Forms.Label labelImageValidation;
 		private System.Windows.Forms.PictureBox pictureBoxImage;
-		private System.Windows.Forms.Button buttonChooseImage;
+		private System.Windows.Forms.Button buttonUploadImage;
 		private System.Windows.Forms.TextBox textBoxImageLocY;
 		private System.Windows.Forms.Label labelY;
 		private System.Windows.Forms.TextBox textBoxImageLocX;
@@ -505,5 +541,8 @@
 		private System.Windows.Forms.Label labelImageLocation;
 		private System.Windows.Forms.Label labelImageInfo;
 		private System.Windows.Forms.Button buttonShowPoint;
+		private System.Windows.Forms.Button buttonScreenshot;
+		private System.Windows.Forms.Label labelOr;
+		private System.Windows.Forms.Button buttonImageValidationPointPick;
 	}
 }
